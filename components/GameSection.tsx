@@ -24,7 +24,7 @@ const GameSection = () => {
               />
             </div>
 
-            <h4 className="mt-4 text-lg md:text-2xl font-bold">{game.name}</h4>
+            <h4 className="mt-4 text-lg lg:text-2xl font-bold">{game.name}</h4>
           </Link>
         ))}
       </div>
