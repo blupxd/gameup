@@ -35,7 +35,7 @@ const RegisterForm = () => {
       terms: false,
     },
   });
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     try {
       const response = await fetch("/api/auth/user", {

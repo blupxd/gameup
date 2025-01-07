@@ -8,6 +8,7 @@ interface ProfileData {
   riotId: string | undefined;
   platformRoute: string | undefined;
   regionalRoute: string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPlayerData: (data: any) => void
 }
 interface GameMode {
@@ -25,6 +26,8 @@ const LolInfo: React.FC<ProfileData> = ({
     { name: "Ranked Solo/Duo", value: "RANKED_SOLO_5x5" },
     { name: "Ranked Flex", value: "RANKED_TEAM_5x5" },
   ];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +55,7 @@ const LolInfo: React.FC<ProfileData> = ({
   }, [riotId, regionalRoute, platformRoute]);
 
   const getRankedData = () =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     profileData?.rankedData?.find(
       (data: any) => data.queueType === selectedMode
     );
@@ -63,7 +67,7 @@ const LolInfo: React.FC<ProfileData> = ({
     return (
       <div className="flex flex-col">
         <h1 className="text-[#D28585]">
-          Couldn't find your profile. Please check your settings.
+          Couldn&apos;t find your profile. Please check your settings.
         </h1>
       </div>
     );

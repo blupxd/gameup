@@ -20,7 +20,7 @@ const LoginForm = () => {
       keepLoggedIn: false,
     },
   });
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     const result = await signIn("credentials", {
       redirect: true,

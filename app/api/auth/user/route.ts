@@ -40,8 +40,8 @@ export async function POST(req: Request) {
       { user: newUser, message: "User created successfully" },
       { status: 201 }
     );
-  } catch (error: any) {
-    console.log(error.stack);
+  } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });
@@ -101,8 +101,8 @@ export async function PATCH(request: Request) {
       { message: "User updated successfully", user: updatedUser },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.log(error.stack);
+  } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });

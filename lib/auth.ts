@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
           type: "password",
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
         const existingUser = await db.user.findUnique({
           where: { email: credentials.email },
@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
           (await compare(credentials.password, existingUser.password))
         ) {
           console.log("dobar si")
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return {
             id: existingUser.id + "",
             email: existingUser.email + "",

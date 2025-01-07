@@ -24,6 +24,7 @@ interface PostFormProps {
   onCreatePost: (value: boolean) => void;
   game: string;
   session: Session | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   playerData: any;
 }
 
@@ -52,6 +53,7 @@ const PostForm: React.FC<PostFormProps> = ({
     methods.setValue("language", language);
   }, [selectedMode, language]);
   const getRankedData = () =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     playerData?.rankedData?.find(
       (data: any) => data.queueType === selectedMode
     );
@@ -113,6 +115,7 @@ const PostForm: React.FC<PostFormProps> = ({
     setSelectedMode(modes[0][1]);
     methods.setValue("gameMode", selectedMode);
   }, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     console.log(data);
     if (data.gameMode === "") setSelectedMode(modes[0][1]);

@@ -27,6 +27,7 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
   const [rank, setRank] = useState<string>("");
 
   const [language, setLanguage] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [playerData, setPlayerData] = useState<any>();
   const checkWhichGame = () => {
     switch (gameName) {

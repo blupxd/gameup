@@ -42,15 +42,15 @@ export async function POST(req: Request) {
       { user: newPost, message: "Post Created successfully" },
       { status: 201 }
     );
-  } catch (error: any) {
-    console.log(error.stack);
+  } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const posts = await db.post.findMany({
       orderBy: {
@@ -70,8 +70,8 @@ export async function GET(req: Request) {
       },
     });
     return NextResponse.json(posts, { status: 200 });
-  } catch (error: any) {
-    console.log(error.stack);
+  } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });

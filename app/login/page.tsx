@@ -18,7 +18,7 @@ const LoginPage = () => {
             </h1>
             <h2 className="text-3xl ">Welcome back!</h2>
             <p className="text-sm mt-2">
-              Don't have an a account?{" "}
+              Don&apos;t have an a account?
               <Link
                 className="underline font-bold text-[#5AECE5]"
                 href="/register"

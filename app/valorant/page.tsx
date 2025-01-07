@@ -13,7 +13,7 @@ interface TableFilters {
   rank: string;
 }
 
-const page = () => {
+const Page:React.FC = () => {
   const { data: session } = useSession();
   const riotGames = session?.user?.riotId;
   const [connection, setConnection] = useState<boolean>(false);
@@ -81,4 +81,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

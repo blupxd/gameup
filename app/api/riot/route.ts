@@ -25,8 +25,8 @@ export async function POST(req: Request) {
       { data: profileData, rankedData },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.log(error.stack);
+  } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });

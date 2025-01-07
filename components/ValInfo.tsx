@@ -12,6 +12,7 @@ interface ValInfoProps {
   riotId: string | undefined;
   platformRoute: string | undefined;
   regionalRoute: string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPlayerData: (data: any) => void;
 }
 
@@ -22,8 +23,8 @@ interface GameMode {
 
 const ValInfo: React.FC<ValInfoProps> = ({
   riotId,
-  platformRoute,
-  regionalRoute,
+  // platformRoute,
+  // regionalRoute,
   getPlayerData,
 }) => {
   const gameModes: GameMode[] = [
@@ -36,6 +37,7 @@ const ValInfo: React.FC<ValInfoProps> = ({
     "ZFtN5K8TaIuanY_utRxsqXli0noAZUjk3o51YoxZ8KoNAja8FbVxVtOPn3Y59wea9CunDjHEBUFC6g"
   );
   useEffect(() => {
+    console.log(selectedMode)
     getPlayerData(profileData);
   }, []);
   return (
