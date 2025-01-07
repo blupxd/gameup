@@ -27,7 +27,7 @@ const Page: React.FC = () => {
   return (
     <section className="min-h-screen h-full relative flex flex-col py-24 px-4 md:px-20">
       <main className="flex z-10 flex-col">
-        {!riotGames ? (
+        {riotGames ? (
           <div className="flex items-center space-x-2 mb-4 md:mb-16">
             <Image
               src="/assets/game_icons/lol.png"
