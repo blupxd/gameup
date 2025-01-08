@@ -1,8 +1,6 @@
 "use client";
 import { checkGame } from "@/data/checkGame";
-import { fetchLolData } from "@/data/fetchLeagueData";
-import { displayRank } from "@/data/leagueRankDisplay";
-import { User } from "@prisma/client";
+
 import { formatDistanceToNow } from "date-fns";
 import { Mic, MicOff } from "lucide-react";
 import Image from "next/image";
@@ -35,28 +33,11 @@ interface FilterProps {
 const GameTable: React.FC<FilterProps> = ({ filters }) => {
   const [games, setGames] = useState<Game[]>([]);
 
-  // Handle posts based on the game type
-  // const handlePosts = async (posts: Post[]) => {
-  //   const gameDataPromises = posts.map(async (post) => {
-  //     if (post.game === "League of Legends") {
-  //       return await fetchLolData(post);
-  //     }
-  //     // Add handling for other games here if necessary
-  //     return null;
-  //   });
-
-  //   const gameData = await Promise.all(gameDataPromises);
-  //   console.log(gameData);
-  //   setGames(gameData.filter((game): game is Game => game !== null)); // Filter out nulls
-  // };
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch("/api/post");
         const data = await response.json();
-
-        // await handlePosts(data);
         setGames(data);
         console.log(data);
       } catch (error) {
