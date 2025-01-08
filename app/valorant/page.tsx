@@ -13,7 +13,7 @@ interface TableFilters {
   rank: string;
 }
 
-const Page:React.FC = () => {
+const Page: React.FC = () => {
   const { data: session } = useSession();
   const riotGames = session?.user?.riotId;
   const [connection, setConnection] = useState<boolean>(false);
@@ -30,7 +30,7 @@ const Page:React.FC = () => {
         {riotGames ? (
           <div className="flex items-center space-x-2 mb-4 md:mb-16">
             <Image
-              src="/assets/game_icons/valorant.jpg"
+              src="/assets/game_icons/val.png"
               alt="Valorant"
               width={100}
               height={100}
@@ -41,7 +41,7 @@ const Page:React.FC = () => {
         ) : (
           <div className="flex items-center space-x-2 mb-16">
             <Image
-              src="/assets/game_icons/Valorant.jpg"
+              src="/assets/game_icons/val.png"
               alt="Valorant"
               width={100}
               height={100}
@@ -68,13 +68,13 @@ const Page:React.FC = () => {
         />
         <GameTable filters={filters} />
       </div>
-      <div className="absolute inset-0 -top-32">
+      <div className="absolute inset-0 top-0 overflow-hidden">
         <Image
           src="/assets/BGVal.png"
           alt="Bg"
           quality={100}
           fill
-          className="object-cover opacity-30"
+          className="object-cover min-h-48 max-h-screen lg:max-h-full opacity-40 xl:max-h-screen"
         />
       </div>
     </section>

@@ -5,9 +5,9 @@ import React from "react";
 
 const GameSection = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <h3 className="font-bold my-12 text-2xl md:text-3xl">Games</h3>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 w-full lg:grid-cols-4 gap-6 lg:gap-16">
         {games.map((game) => (
           <Link
             key={game.name}

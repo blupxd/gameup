@@ -23,11 +23,11 @@ const Page: React.FC = () => {
     language: "",
     rank: "",
   });
-  console.log(riotGames)
+  console.log(session)
   return (
     <section className="min-h-screen h-full relative flex flex-col py-24 px-4 md:px-20">
       <main className="flex z-10 flex-col">
-        {riotGames ? (
+        {session && riotGames !== "null" ? (
           <div className="flex items-center space-x-2 mb-4 md:mb-16">
             <Image
               src="/assets/game_icons/lol.png"
@@ -65,13 +65,13 @@ const Page: React.FC = () => {
         <ProfileStats onChange={(value: TableFilters) => setFilters(value)} gameName="League of Legends" />
         <GameTable filters={filters} />
       </main>
-      <div className="absolute inset-0 -top-32 overflow-hidden">
+      <div className="absolute inset-0 top-0 overflow-hidden">
         <Image
           src="/assets/BG.png"
           alt="Bg"
           quality={100}
           fill
-          className="object-cover"
+          className="object-cover min-h-48 max-h-screen lg:max-h-full xl:max-h-screen"
         />
       </div>
     </section>

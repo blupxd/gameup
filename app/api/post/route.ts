@@ -5,8 +5,18 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { id, gameMode, language, microphone, game, gameUsername, note } =
-      await req.json();
+    const {
+      id,
+      gameMode,
+      language,
+      microphone,
+      rank,
+      rankIcon,
+      winRate,
+      game,
+      gameUsername,
+      note,
+    } = await req.json();
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -14,12 +24,7 @@ export async function POST(req: Request) {
     if (session && session.user.id !== id) {
       return NextResponse.json({ message: "Forbbiden" }, { status: 403 });
     }
-    if (
-      !gameMode ||
-      !game ||
-      !gameUsername ||
-      !language
-    ) {
+    if (!gameMode || !game || !gameUsername || !language || !rank || !rankIcon || !winRate) {
       return NextResponse.json({ message: "Missing fields" }, { status: 400 });
     }
     //save
@@ -30,6 +35,9 @@ export async function POST(req: Request) {
         language,
         gameUsername,
         game,
+        rank,
+        winRate,
+        rankIcon,
         note,
         author: {
           connect: {
@@ -42,8 +50,8 @@ export async function POST(req: Request) {
       { user: newPost, message: "Post Created successfully" },
       { status: 201 }
     );
-  } catch (error: unknown) {
-    console.log(error);
+  } catch (error: any) {
+    console.log(error.stack);
     const errorMessage =
       error instanceof Error ? error.message : "An error occurred!";
     return NextResponse.json({ message: errorMessage }, { status: 500 });
@@ -58,15 +66,15 @@ export async function GET() {
       },
       include: {
         author: {
-            select: {
-                id: true,
-                username: true,
-                email: true,
-                riotId: true,
-                platformRoute: true,
-                regionalRoute: true,
-            }
-        }
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            riotId: true,
+            platformRoute: true,
+            regionalRoute: true,
+          },
+        },
       },
     });
     return NextResponse.json(posts, { status: 200 });

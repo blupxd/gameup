@@ -86,7 +86,7 @@ const RiotConnection: React.FC<ConnectionPopUpProps> = ({ setConnection }) => {
   };
 
   return (
-    <div className="bg-black/70 z-20 absolute left-0 bottom-0 right-0 top-0 flex items-center justify-center">
+    <div className="bg-black/70 z-30 absolute left-0 bottom-0 right-0 top-0 flex items-center justify-center">
       <div className="bg-[#171717] rounded border border-[#707070] px-6 py-4">
         <h1 className="text-white mb-4">Please enter your RiotID</h1>
         <FormProvider {...methods}>
@@ -102,11 +102,15 @@ const RiotConnection: React.FC<ConnectionPopUpProps> = ({ setConnection }) => {
             />
             <div className="flex items-center space-x-6">
               <Dropdown
+                overflown={true}
+                className="w-52"
                 onSelect={(e) => methods.setValue("regionalRoute", e)}
                 placeholder="Base Region"
                 items={regionalRoutes}
               />
               <Dropdown
+                overflown={true}
+                className="w-52"
                 onSelect={(e) => methods.setValue("platformRoute", e)}
                 placeholder="Platform Region"
                 items={platformRoutes}

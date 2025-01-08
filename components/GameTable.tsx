@@ -4,15 +4,19 @@ import { fetchLolData } from "@/data/fetchLeagueData";
 import { displayRank } from "@/data/leagueRankDisplay";
 import { User } from "@prisma/client";
 import { formatDistanceToNow } from "date-fns";
+import { Mic, MicOff } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface Game {
   game: string;
   user: string;
-  time: string;
+  createdAt: string;
+  gameUsername: string;
   language: string;
+  microphone: boolean;
   rank: string;
+  rankIcon: string;
   gameMode: string;
   winRate: string;
   note: string;
@@ -27,42 +31,34 @@ interface TableFilters {
 interface FilterProps {
   filters: TableFilters;
 }
-interface Post {
-  id: string;
-  game: string;
-  gameUsername: string;
-  gameMode: string;
-  language: string;
-  microphone: boolean;
-  note: string;
-  createdAt: string;
-  author: User;
-}
 
 const GameTable: React.FC<FilterProps> = ({ filters }) => {
   const [games, setGames] = useState<Game[]>([]);
 
   // Handle posts based on the game type
-  const handlePosts = async (posts: Post[]) => {
-    const gameDataPromises = posts.map(async (post) => {
-      if (post.game === "League of Legends") {
-        return await fetchLolData(post);
-      }
-      // Add handling for other games here if necessary
-      return null;
-    });
+  // const handlePosts = async (posts: Post[]) => {
+  //   const gameDataPromises = posts.map(async (post) => {
+  //     if (post.game === "League of Legends") {
+  //       return await fetchLolData(post);
+  //     }
+  //     // Add handling for other games here if necessary
+  //     return null;
+  //   });
 
-    const gameData = await Promise.all(gameDataPromises);
-    console.log(gameData);
-    setGames(gameData.filter((game): game is Game => game !== null)); // Filter out nulls
-  };
+  //   const gameData = await Promise.all(gameDataPromises);
+  //   console.log(gameData);
+  //   setGames(gameData.filter((game): game is Game => game !== null)); // Filter out nulls
+  // };
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch("/api/post");
         const data = await response.json();
-        await handlePosts(data);
+
+        // await handlePosts(data);
+        setGames(data);
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
       }
@@ -70,32 +66,32 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
 
     fetchPosts();
   }, []);
-  console.log(filters);
+
   const filteredGames = games.filter((game: Game) => {
-    const { game: gameFilter, gameMode, rank } = filters;
+    const { game: gameFilter, gameMode, rank, language } = filters;
 
     return (
-      (!gameFilter || gameFilter === "Any Game" || game.game === gameFilter) &&
-      (!gameMode || game.gameMode === gameMode) &&
-      (!rank ||
-        rank === "Any Rank" ||
-        game.rank.toLocaleLowerCase() === rank.toLocaleLowerCase())
+      (gameFilter === "Any Game" || !gameFilter || game.game === gameFilter) &&
+      (!gameMode || game.gameMode === gameMode || gameMode === "Any Gamemode") &&
+      (rank === "Any Rank" || !rank || game.rank.toLocaleLowerCase() === rank.toLocaleLowerCase()) &&
+      (!language || game.language === language || language === "Any Language")
     );
   });
+  console.log({ filteredGames, filters });
   return (
-    <div className="overflow-x-auto lg:mt-0 mt-4">
-      <div className="min-w-max overflow-auto scrollbar w-full flex flex-col text-white">
+    <div className="overflow-x-auto scrollbar lg:mt-0 mt-4">
+      <div className="min-w-max overflow-auto text-sm w-full flex flex-col text-white">
         {/* Table Headers */}
-        <div className="flex items-center space-x-4 md:px-6 px-4 py-2 md:py-4 rounded-t-md">
+        <div className="flex items-center space-x-4 md:px-4 px-2 py-1 md:py-2 rounded-t-md">
           <div className="w-16 flex-none text-center font-bold">Game</div>
-          <div className="flex-1 font-bold">Username</div>
-          <div className="w-32 flex-none font-bold">Time</div>
-          <div className="w-40 flex-none font-bold">Game Mode</div>
-          <div className="w-40 flex-none font-bold">Rank</div>
+          <div className="flex-none w-48 font-bold">Username</div>
+          <div className="w-24 flex-none font-bold">Time</div>
+          <div className="w-32 flex-none font-bold">Game Mode</div>
+          <div className="w-32 flex-none font-bold">Rank</div>
           <div className="w-24 flex-none font-bold">Win Rate</div>
           <div className="w-24 flex-none font-bold">Language</div>
           <div className="flex-1 font-bold">Note</div>
-          <div className="w-24 flex-none font-bold"></div>
+          <div className="flex-1 font-bold"></div>
         </div>
 
         {/* Table Content */}
@@ -104,7 +100,7 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
             filteredGames.map((game, idx) => (
               <div
                 key={idx}
-                className="flex items-center space-x-4 md:px-6 px-4 py-1 md:py-4 border-b border-[#3A434D]"
+                className="flex items-center space-x-4 md:px-4 px-2 py-1 md:py-2 border-b border-[#3A434D]"
               >
                 {/* Game Icon */}
                 <div className="w-16 flex-none flex justify-center items-center">
@@ -117,56 +113,67 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
                 </div>
 
                 {/* Username */}
-                <div className="flex-1 text-[#5AECE5] w-48 font-semibold">{game.user}</div>
+                <div className="flex-none w-48 text-[#5AECE5] font-semibold">
+                  <div className="flex items-center gap-x-2">
+                    <p className="text-wrap text-xs">{game.gameUsername}</p>
+                    {game.microphone ? (
+                      <Mic className="text-[#5aec83]" size={20} />
+                    ) : (
+                      <MicOff className="text-[#ec5a5a]" size={20} />
+                    )}
+                  </div>
+                </div>
 
                 {/* Time */}
-                <div className="w-32 flex-none">
-                  {formatDistanceToNow(new Date(game.time), {
+                <div className="w-24 flex-none text-xs">
+                  {formatDistanceToNow(new Date(game.createdAt), {
                     addSuffix: true,
                   })}
                 </div>
 
                 {/* Game Mode */}
-                <div className="w-40 flex-none font-semibold text-[#C188E1]">
+                <div className="w-32 flex-none font-semibold text-[#C188E1] text-xs">
                   {game.gameMode}
                 </div>
 
                 {/* Rank */}
-                <div className="w-40 flex-none flex items-center gap-2">
-                  <span className="font-semibold text-[#cfcfcf]">{game.rank}</span>
-                  {game.game === "League of Legends" && (
+                <div className="w-32 flex-none flex items-center gap-2">
+                  <span className="font-semibold text-[#cfcfcf] text-xs">
+                    {game.rank}
+                  </span>
+                  
                     <Image
-                      src={displayRank(game.rank.split(" ")[0])}
+                      src={game.rankIcon}
                       className="-mt-2"
-                      width={70}
-                      height={70}
+                      width={35}
+                      height={35}
                       alt="Game profile picture"
                     />
-                  )}
+                  
                 </div>
 
                 {/* Win Rate */}
                 <div
-                  className={`w-24 flex-none font-bold text-lg ${
+                  className={`w-24 flex-none font-bold text-xs ${
                     parseFloat(game.winRate) > 50
                       ? "text-[#A9EF93]"
                       : "text-[#ce343b]"
                   }`}
                 >
-                  {game.winRate}
+                  {game.winRate}%
                 </div>
-                <div className="w-24 flex-none font-bold">{game.language}</div>
+                <div className="w-24 flex-none text-xs font-bold">{game.language}</div>
                 {/* Note */}
                 <div className="flex-1">
-                  <p className="text-xs border border-[#1E1E1E] p-2 rounded bg-[#252525] overflow-auto scrollbar">
-                    {game.note}
-                  </p>
+                    <p className="text-xs border w-36 h-auto border-[#1E1E1E] p-2 rounded bg-[#252525] overflow-x-auto whitespace-nowrap scrollbar">
+                    {game.note || "No note"}
+                    </p>
                 </div>
 
                 {/* Request Button */}
-                <div className="w-24 flex-none text-center">
+                <div className="flex-1 text-center">
                   <button className="ml-auto bg-[#865B9E] text-xs flex items-center justify-center text-white px-4 py-2 rounded">
-                    REQUEST
+                    Invite
                   </button>
                 </div>
               </div>

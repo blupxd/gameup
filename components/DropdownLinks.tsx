@@ -20,7 +20,13 @@ const DropdownLinks = () => {
         <div className="absolute inset-0 pt-24 flex flex-col bg-[#171717]/95 w-full h-[120vh] -z-10">
           <div className="flex flex-col items-center h-full">
             {navLinks.map((link) => (
-              <ColoredLink className="w-full text-xl border-b text-center py-6 border-[#2e2e2e]" key={link.url} url={link.url} name={link.name} />
+              <span
+                key={link.url}
+                onClick={toggleDropdown}
+                className="w-full text-xl border-b text-center border-[#2e2e2e] py-6"
+              >
+                <ColoredLink url={link.url} name={link.name} />
+              </span>
             ))}
           </div>
         </div>

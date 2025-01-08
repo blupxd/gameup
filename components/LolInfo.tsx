@@ -98,7 +98,7 @@ const LolInfo: React.FC<ProfileData> = ({
             </div>
           </div>
 
-          <div className="grid items-start grid-cols-2 xl:grid-cols-4 w-full xl:max-w-max gap-4 lg:gap-4">
+          <div className="grid items-start grid-cols-2 xl:grid-cols-4 w-full lg:w-96 xl:max-w-max gap-4 lg:gap-4">
             {stats.map((stat) => {
               const value =
                 stat === "Win %"
@@ -142,7 +142,7 @@ const LolInfo: React.FC<ProfileData> = ({
                 height={100}
                 className="-mt-2 md:w-auto w-36 h-36 md:h-auto"
               />
-              <h1 className="font-semibold text-2xl lg:text-xl">{rankedData ? `${rankedData?.tier} ${rankedData?.rank}` : "Unranked"}</h1>
+              <h1 className="font-semibold text-base xl:text-xl">{rankedData ? `${rankedData?.tier} ${rankedData?.rank}` : "Unranked"}</h1>
             </div>
           </div>
         </div>

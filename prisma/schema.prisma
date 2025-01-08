@@ -44,8 +44,11 @@ model Post {
   createdAt    DateTime @default(now())
   gameMode     String
   language     String
+  rank         String
+  rankIcon     String
   microphone   Boolean  @default(false)
   authorId     String
+  winRate      String
   note         String
   gameUsername String
   author       User     @relation(fields: [authorId], references: [id])

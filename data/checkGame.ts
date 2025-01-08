@@ -3,7 +3,7 @@ export const checkGame = (gameName: string) => {
     case "League of Legends":
       return "/assets/game_icons/lol.png";
     case "Valorant":
-      return "/assets/game_icons/valorant.jpg";
+      return "/assets/game_icons/val.png";
     case "Fortnite":
       return "/assets/game_icons/fortnite.webp";
     default:

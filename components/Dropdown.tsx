@@ -36,7 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder, overflown, icon
         />
       </div>
       {open && (
-        <ul className={`h-32 ${overflown && "absolute"} top-full w-full max-h-max overflow-auto bg-[#171717]/95 scrollbar`}>
+        <ul className={`h-32 ${overflown ? "absolute" : "lg:absolute"} top-full w-full max-h-max overflow-auto bg-[#171717]/95 scrollbar`}>
           {items.map((item: string, idx: number) => (
             <li
               onClick={() => handleSelect(item)}

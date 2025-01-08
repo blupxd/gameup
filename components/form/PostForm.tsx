@@ -34,7 +34,7 @@ const PostForm: React.FC<PostFormProps> = ({
   playerData,
   onCreatePost,
 }) => {
-  const [selectedMode, setSelectedMode] = useState<string>("");
+  const [selectedMode, setSelectedMode] = useState<string[]>([]);
   const [language, setLanguage] = useState<string>("Any Language");
   const methods = useForm({
     defaultValues: {
@@ -42,22 +42,21 @@ const PostForm: React.FC<PostFormProps> = ({
       game: game || "",
       gameUsername: session?.user.riotId || "",
       gameMode: "",
+      rank: "",
+      rankIcon: "",
+      winRate: "N/A",
       language: "Any Language",
       microphone: false,
       note: "",
     },
   });
 
-  useEffect(() => {
-    methods.setValue("gameMode", selectedMode);
-    methods.setValue("language", language);
-  }, [selectedMode, language]);
   const getRankedData = () =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     playerData?.rankedData?.find(
-      (data: any) => data.queueType === selectedMode
+      (data: any) => data.queueType === selectedMode[1]
     );
-
+  console.log(playerData);
   const rankedData = getRankedData();
   const checkWhichGame = () => {
     switch (game) {
@@ -73,6 +72,10 @@ const PostForm: React.FC<PostFormProps> = ({
           rank: rankedData
             ? `${rankedData?.tier} ${rankedData?.rank}`
             : "Unranked",
+          winRate: (
+            (rankedData?.wins / (rankedData?.wins + rankedData?.losses)) *
+            100
+          ).toFixed(1),
         };
       case "Valorant":
         return {
@@ -84,6 +87,10 @@ const PostForm: React.FC<PostFormProps> = ({
           level: playerData?.level,
           rankIcon: playerData?.rank[1],
           rank: playerData?.rank[0],
+          winRate: (
+            playerData?.wins /
+            (playerData?.wins + playerData?.losses)
+          ).toFixed(1),
         };
       case "Fortnite":
         return {
@@ -95,6 +102,10 @@ const PostForm: React.FC<PostFormProps> = ({
           level: playerData?.level,
           rankIcon: "",
           rank: "",
+          winRate: (
+            playerData?.wins /
+            (playerData?.wins + playerData?.losses)
+          ).toFixed(1),
         };
       case "CS2":
         return {
@@ -104,21 +115,33 @@ const PostForm: React.FC<PostFormProps> = ({
           level: playerData?.level,
           rankIcon: "",
           rank: "",
+          winRate: (
+            playerData?.wins /
+            (playerData?.wins + playerData?.losses)
+          ).toFixed(1),
         };
       default:
         return { name: "", modes: [], profileIcon: "/images/default-icon.png" }; // Opšta default ikonica
     }
   };
 
-  const { name, profileIcon, level, rank, rankIcon, modes } = checkWhichGame();
+  const { name, profileIcon, level, rank, rankIcon, modes, winRate } =
+    checkWhichGame();
   useEffect(() => {
-    setSelectedMode(modes[0][1]);
-    methods.setValue("gameMode", selectedMode);
+    methods.setValue("gameMode", selectedMode[0]);
+    methods.setValue("language", language);
+    methods.setValue("rank", rank);
+    methods.setValue("rankIcon", rankIcon);
+    methods.setValue("winRate", winRate + "");
+  }, [selectedMode, language, rank, rankIcon, winRate]);
+  useEffect(() => {
+    setSelectedMode(modes[0]);
+    methods.setValue("gameMode", selectedMode[0]);
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     console.log(data);
-    if (data.gameMode === "") setSelectedMode(modes[0][1]);
+    if (data.gameMode === "") setSelectedMode(modes[0]);
     if (session?.user.id) {
       try {
         const response = await fetch("/api/post", {
@@ -158,7 +181,7 @@ const PostForm: React.FC<PostFormProps> = ({
                 placeholder={modes[0][0]}
                 onSelect={(value) =>
                   setSelectedMode(
-                    modes.find((mode) => mode[0] === value)?.[1] || modes[0][1]
+                    modes.find((mode) => mode[0] === value) || modes[0]
                   )
                 }
               />
@@ -189,7 +212,7 @@ const PostForm: React.FC<PostFormProps> = ({
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg font-bold">
-                  {modes.find((mode) => mode[1] === selectedMode)?.[0] ||
+                  {modes.find((mode) => mode[1] === selectedMode[1])?.[0] ||
                     modes[0][0]}
                 </h1>
                 <div className="flex items-center space-x-2">

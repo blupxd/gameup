@@ -20,7 +20,7 @@ const TransparentDropdown: React.FC<DropdownProps> = ({ items, placeholder, icon
   };
 
   return (
-    <div className="relative flex text-2xl flex-col w-full">
+    <div className="relative flex text-lg xl:text-2xl flex-col w-full">
       <div
         onClick={() => setOpen(!open)}
         className="cursor-pointer flex font-bold items-center"

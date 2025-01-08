@@ -70,13 +70,13 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
       <div className="flex flex-col lg:flex-row items-start justify-between">
         <div className="flex flex-wrap items-start w-full xl:space-y-0 gap-4 xl:space-x-6">
           <Dropdown
-            className="xl:w-52 lg:w-40 w-full"
+            className="xl:w-52 lg:w-48 w-full"
             onSelect={setRank}
             placeholder="Any Rank"
             items={checkWhichGame()[0] as string[]}
           />
           <Dropdown
-            className="xl:w-52 lg:w-40 w-full"
+            className="xl:w-52 lg:w-48 w-full"
             onSelect={setGameMode}
             placeholder={checkWhichGame()[1][0][0]}
             items={checkWhichGame()[1].map((mode) => mode[0])}
