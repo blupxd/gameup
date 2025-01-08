@@ -23,7 +23,7 @@ const Footer = () => {
       { name: "Help", url: "/help" },
     ],
     terms: [
-      { name: "Terms of Policy", url: "/policy" },
+      { name: "Terms of Privacy", url: "/privacy" },
       { name: "Terms of Service", url: "/terms" },
     ],
     socials: [
