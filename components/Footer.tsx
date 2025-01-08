@@ -38,7 +38,7 @@ const Footer = () => {
     <footer className="md:px-20 md:py-10 px-4 py-2 gap-y-16 flex items-start flex-wrap justify-between bg-[#1C1C1C]">
       <div className="flex flex-col gap-y-4 w-96">
         <h1 className="text-lg md:text-2xl font-medium">
-          Arena.<span className="font-black text-[#5AECE5]">GG</span>
+          Duo<span className="font-black text-[#5AECE5]">Grind</span>
         </h1>
         <h2 className="text-base font-semibold">© 2025 Arena.GG copyright </h2>
         <p className="text-sm text-[#5AECE5]">

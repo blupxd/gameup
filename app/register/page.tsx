@@ -14,7 +14,7 @@ const RegisterPage = () => {
         <div className="flex flex-col bg-[#212121] px-6 md:px-12 py-8 md:py-10 pb-16 rounded shadow-md">
           <div className="flex flex-col text-white items-center">
             <h1 className="text-3xl md:text-5xl font-medium">
-              Arena.<span className="font-black text-[#5AECE5]">GG</span>
+              Duo<span className="font-black text-[#5AECE5]">Grind</span>
             </h1>
             <h2 className="text-xl md:text-3xl">Create an account</h2>
             <p className="text-center text-sm mt-1 md:mt-2">

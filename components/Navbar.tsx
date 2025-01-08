@@ -14,7 +14,7 @@ const Navbar = async () => {
       <div className="flex py-4 justify-between items-center">
         <div className="flex items-center space-x-2">
           <Link href="/" className="max-w-max text-2xl">
-            Arena.<span className="font-black text-[#5AECE5]">GG</span>
+            Duo<span className="font-black text-[#5AECE5]">Grind</span>
           </Link>
           <DropdownLinks />
         </div>

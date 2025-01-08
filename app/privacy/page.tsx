@@ -6,7 +6,7 @@ const PrivacyPage = () => {
       <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
       <p className="mb-4"><strong>Last updated:</strong> January 8, 2025</p>
       <p className="mb-4">
-        FoundDuo ("us", "we", or "our") operates nowebsiteyet.com (the "Site"). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the Site. We use your Personal Information only for providing and improving the Site and services. By using the Site, you agree to the collection and use of information in accordance with this policy.
+        DuoGrind ("us", "we", or "our") operates nowebsiteyet.com (the "Site"). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the Site. We use your Personal Information only for providing and improving the Site and services. By using the Site, you agree to the collection and use of information in accordance with this policy.
       </p>
       <hr className="my-4" />
       <h2 className="text-xl font-bold mb-2">Information Collection and Use</h2>
