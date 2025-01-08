@@ -4,6 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import TextInput from "@/components/form/TextInput";
+import Link from "next/link";
 
 const schema = z
   .object({
@@ -56,7 +57,7 @@ const RegisterForm = () => {
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="flex mt-6 flex-col w-96"
+        className="flex mt-6 flex-col w-full md:w-96"
       >
         <TextInput label="Email" type="email" name="email" />
         <TextInput label="Username" type="text" name="username" />
@@ -76,7 +77,7 @@ const RegisterForm = () => {
             className="h-4 w-4 accent-[#5AECE5] rounded focus:ring-0"
           />
           <label htmlFor="terms" className="ml-2 text-sm text-white underline">
-            I have read and accept terms & conditions
+            <Link href={"/terms"}>I have read and accept terms & conditions</Link>
           </label>
         </div>
         {methods.formState.errors.terms && (

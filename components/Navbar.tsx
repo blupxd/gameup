@@ -19,7 +19,7 @@ const Navbar = async () => {
           <DropdownLinks />
         </div>
 
-        <div className="max-w-max hidden font-bold lg:flex items-center text-base space-x-20">
+        <div className="max-w-max hidden font-bold lg:flex items-center text-sm xl:text-base space-x-10 xl:space-x-20">
           {navLinks.map((link) => (
             <ColoredLink key={link.url} url={link.url} name={link.name} />
           ))}

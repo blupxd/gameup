@@ -38,7 +38,7 @@ const LoginForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className="flex mt-6 flex-col w-96">
+      <form onSubmit={methods.handleSubmit(onSubmit)} className="flex mt-6 flex-col w-full md:w-96">
         <TextInput label="Email" type="email" name="email" />
         <TextInput label="Password" type="password" name="password" />
         <div className="flex items-center mt-4">
