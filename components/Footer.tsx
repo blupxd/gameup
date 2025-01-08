@@ -40,7 +40,7 @@ const Footer = () => {
         <h1 className="text-lg md:text-2xl font-medium">
           Duo<span className="font-black text-[#5AECE5]">Grind</span>
         </h1>
-        <h2 className="text-base font-semibold">© 2025 Arena.GG copyright </h2>
+        <h2 className="text-base font-semibold">© 2025 DuoGrind copyright </h2>
         <p className="text-sm text-[#5AECE5]">
           This platform's stats are not endorsed by the respective game
           developers or publishers and do not reflect the views or opinions of
