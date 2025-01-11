@@ -5,6 +5,7 @@ import ProfileStats from "@/components/ProfileStats";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface TableFilters {
   game: string;
@@ -27,7 +28,7 @@ const Page: React.FC = () => {
   return (
     <section className="min-h-screen h-full relative flex flex-col py-24 px-4 md:px-20">
       <div className="flex z-10 flex-col">
-        {riotGames ? (
+        {session && riotGames !== "null" ? (
           <div className="flex items-center space-x-2 mb-4 md:mb-16">
             <Image
               src="/assets/game_icons/val.png"
@@ -52,12 +53,21 @@ const Page: React.FC = () => {
               <h3 className="text-sm lg:text-base">
                 Connect your account to see your stats and post or find partner
               </h3>
-              <button
-                onClick={() => setConnection(true)}
-                className="px-10 max-w-max hover:bg-[#4dc1bb] transition-colors duration-300 ease-in-out py-1 mt-2 rounded text-[#1c1c1c] font-bold bg-[#5AECE5]"
-              >
-                Connect
-              </button>
+              {session ? (
+                <button
+                  onClick={() => setConnection(true)}
+                  className="px-10 max-w-max hover:bg-[#4dc1bb] transition-colors duration-300 ease-in-out py-1 mt-2 rounded text-[#1c1c1c] font-bold bg-[#5AECE5]"
+                >
+                  Connect
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="px-10 max-w-max hover:bg-[#4dc1bb] transition-colors duration-300 ease-in-out py-1 mt-2 rounded text-[#1c1c1c] font-bold bg-[#5AECE5]"
+                >
+                  Sign in to connect
+                </Link>
+              )}
             </div>
             {connection && <RiotConnection setConnection={setConnection} />}
           </div>
@@ -74,7 +84,7 @@ const Page: React.FC = () => {
           alt="Bg"
           quality={100}
           fill
-          className="object-cover min-h-48 max-h-screen lg:max-h-full opacity-40 xl:max-h-screen"
+          className="object-cover min-h-48 max-h-screen lg:max-h-full opacity-40"
         />
       </div>
     </section>

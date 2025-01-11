@@ -9,6 +9,7 @@ import PostPopUp from "./post/PostPopUp";
 import { useSession } from "next-auth/react";
 import LolInfo from "./LolInfo";
 import ValInfo from "./ValInfo";
+import FortInfo from "./FortInfo";
 
 interface TableFilters {
   game: string;
@@ -27,6 +28,7 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
   const [rank, setRank] = useState<string>("");
 
   const [language, setLanguage] = useState<string>("");
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [playerData, setPlayerData] = useState<any>();
   const checkWhichGame = () => {
@@ -45,28 +47,47 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
   useEffect(() => {
     onChange({ game: gameName, rank, gameMode, language });
   }, [rank, gameMode, language]);
+
+  const renderGameInfo = () => {
+    if (session) {
+      switch (gameName) {
+        case "League of Legends":
+          if (session.user.riotId !== "null")
+            return (
+              <LolInfo
+                getPlayerData={setPlayerData}
+                platformRoute={session?.user.platformRoute}
+                regionalRoute={session?.user.regionalRoute}
+                riotId={session?.user.riotId}
+              />
+            );
+          break;
+        case "Valorant":
+          if (session.user.riotId !== "null")
+            return (
+              <ValInfo
+                getPlayerData={setPlayerData}
+                platformRoute={session?.user.platformRoute}
+                regionalRoute={session?.user.regionalRoute}
+                riotId={session?.user.riotId}
+              />
+            );
+          break;
+        case "Fortnite":
+          if (session.user.epicId !== "null")
+            return (
+              <FortInfo
+                getPlayerData={setPlayerData}
+                epicId={session?.user.epicId}
+                gameModes={fnGM}
+              />
+            );
+      }
+    }
+  };
   return (
     <div className="flex flex-col h-full">
-      {(session &&
-        session.user.riotId !== "null" &&
-        gameName === "League of Legends" && (
-          <LolInfo
-            getPlayerData={setPlayerData}
-            platformRoute={session?.user.platformRoute}
-            regionalRoute={session?.user.regionalRoute}
-            riotId={session?.user.riotId}
-          />
-        )) ||
-        (session &&
-          session.user.riotId !== "null" &&
-          gameName === "Valorant" && (
-            <ValInfo
-              getPlayerData={setPlayerData}
-              platformRoute={session?.user.platformRoute}
-              regionalRoute={session?.user.regionalRoute}
-              riotId={session?.user.riotId}
-            />
-          ))}
+      {renderGameInfo()}
       <div className="flex flex-col lg:flex-row items-start justify-between">
         <div className="flex flex-wrap items-start w-full xl:space-y-0 gap-4 xl:space-x-6">
           <Dropdown

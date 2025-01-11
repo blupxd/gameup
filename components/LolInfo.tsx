@@ -45,6 +45,7 @@ const LolInfo: React.FC<ProfileData> = ({
         const data = await response.json();
         setProfileData(data);
         getPlayerData(data)
+        console.log(data)
       } catch {
         setError("Failed to fetch profile data");
       } finally {

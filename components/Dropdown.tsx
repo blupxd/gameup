@@ -11,7 +11,14 @@ interface DropdownProps {
   overflown?: boolean;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ items, placeholder, overflown, icon, onSelect, className }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  items,
+  placeholder,
+  overflown,
+  icon,
+  onSelect,
+  className,
+}) => {
   const [selectedText, setSelectedText] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const handleSelect = (item: string) => {
@@ -26,8 +33,15 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder, overflown, icon
         onClick={() => setOpen(!open)}
         className="px-6 cursor-pointer py-2 border rounded border-[#707070] bg-[#171717] flex items-center"
       >
-        {icon && <span className="mr-2">{icon}</span>} {/* Render the icon */}
-        {selectedText ? selectedText : placeholder}
+        {icon && <span className="mr-2">{icon}</span>}
+        <p
+          title={selectedText ? selectedText : placeholder}
+          className="text-nowrap text-ellipsis overflow-hidden"
+        >
+          {/* Render the icon */}
+          {selectedText ? selectedText : placeholder}
+        </p>
+
         <ChevronDown
           size={16}
           className={`ml-auto ${
@@ -36,7 +50,11 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder, overflown, icon
         />
       </div>
       {open && (
-        <ul className={`h-32 ${overflown ? "absolute" : "lg:absolute"} top-full w-full max-h-max overflow-auto bg-[#171717]/95 scrollbar`}>
+        <ul
+          className={`h-32 ${
+            overflown ? "absolute" : "lg:absolute"
+          } top-full w-full max-h-max overflow-auto bg-[#171717]/95 scrollbar`}
+        >
           {items.map((item: string, idx: number) => (
             <li
               onClick={() => handleSelect(item)}

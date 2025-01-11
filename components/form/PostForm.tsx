@@ -9,6 +9,7 @@ import { languages } from "@/data/languages";
 import Image from "next/image";
 import { displayRank } from "@/data/leagueRankDisplay";
 import ToggleSwitch from "./ToggleSwitch";
+import { useAppStore } from "@/store/useStore";
 
 interface Session {
   user: {
@@ -35,6 +36,7 @@ const PostForm: React.FC<PostFormProps> = ({
   onCreatePost,
 }) => {
   const [selectedMode, setSelectedMode] = useState<string[]>([]);
+  const triggerSignal = useAppStore((state) => state.triggerSignal);
   const [language, setLanguage] = useState<string>("Any Language");
   const methods = useForm({
     defaultValues: {
@@ -64,6 +66,8 @@ const PostForm: React.FC<PostFormProps> = ({
         return {
           name: "League of Legends",
           modes: lolGM,
+          gameIcon: "/assets/game_icons/lol.png",
+          playerName: session?.user.riotId,
           profileIcon: playerData?.data?.profileIconId
             ? `https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/${playerData.data.profileIconId}.png`
             : "/images/default-lol-icon.png", // Default LOL ikonica
@@ -81,6 +85,8 @@ const PostForm: React.FC<PostFormProps> = ({
         return {
           name: "Valorant",
           modes: valGM,
+          gameIcon: "/assets/game_icons/valorant.png",
+          playerName: session?.user.riotId,
           profileIcon: playerData?.playerCard
             ? `https://media.valorant-api.com/playercards/${playerData.playerCard}/smallart.png`
             : "/images/default-valorant-icon.png",
@@ -96,36 +102,20 @@ const PostForm: React.FC<PostFormProps> = ({
         return {
           name: "Fortnite",
           modes: fnGM,
-          profileIcon: playerData?.playerCard
-            ? `https://media.valorant-api.com/playercards/${playerData.playerCard}/smallart.png`
-            : "/images/default-fn-icon.png", // Default FN ikonica
+          gameIcon: "/assets/game_icons/fortnite.webp",
+          playerName: session?.user.epicId.split("-+")[0],
+          profileIcon: playerData?.icon,
           level: playerData?.level,
-          rankIcon: "",
-          rank: "",
-          winRate: (
-            playerData?.wins /
-            (playerData?.wins + playerData?.losses)
-          ).toFixed(1),
-        };
-      case "CS2":
-        return {
-          name: "CS2",
-          modes: [],
-          profileIcon: "/images/default-cs2-icon.png",
-          level: playerData?.level,
-          rankIcon: "",
-          rank: "",
-          winRate: (
-            playerData?.wins /
-            (playerData?.wins + playerData?.losses)
-          ).toFixed(1),
+          rankIcon: `/assets/fortnite/ranked_emblems/${playerData?.rank}.png`,
+          rank: playerData?.rank,
+          winRate: playerData?.winRate,
         };
       default:
         return { name: "", modes: [], profileIcon: "/images/default-icon.png" }; // Opšta default ikonica
     }
   };
 
-  const { name, profileIcon, level, rank, rankIcon, modes, winRate } =
+  const { name, profileIcon, level,playerName,gameIcon, rank, rankIcon, modes, winRate } =
     checkWhichGame();
   useEffect(() => {
     methods.setValue("gameMode", selectedMode[0]);
@@ -152,6 +142,7 @@ const PostForm: React.FC<PostFormProps> = ({
           body: JSON.stringify(data),
         });
         onCreatePost(false);
+        triggerSignal();
         if (!response.ok) throw new Error("Failed to register");
       } catch (error: unknown) {
         console.error(error);
@@ -169,13 +160,14 @@ const PostForm: React.FC<PostFormProps> = ({
           <div className="flex justify-between items-start">
             <div className="flex flex-col max-w-max">
               <h1 className="mb-2">Game</h1>
-              <div className="px-6 text-sm py-2 border rounded border-[#707070] bg-[#171717] flex items-center">
-                {name}
+              <div className="px-4 text-sm py-2 border rounded border-[#707070] bg-[#171717] flex items-center">
+                <Image src={gameIcon + ""} alt="game_icon" width={15} height={15} className="mr-2 max-w-max"/> {name}
               </div>
             </div>
             <div className="flex flex-col  max-w-max">
               <h1 className="mb-2">Gamemode</h1>
               <Dropdown
+              className="w-52"
                 overflown={true}
                 items={modes.map((mode) => mode[0])}
                 placeholder={modes[0][0]}
@@ -200,7 +192,7 @@ const PostForm: React.FC<PostFormProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <h1 className="text-lg font-bold text-white">
-                    {session?.user.riotId}
+                    {playerName}
                   </h1>
                   <h2 className="text-sm font-bold text-[#5AECE5]">
                     Level {level}
@@ -219,9 +211,9 @@ const PostForm: React.FC<PostFormProps> = ({
                   <Image
                     src={rankIcon}
                     alt="Rank"
-                    width={70}
-                    height={70}
-                    className="lg:w-16 w-10 h-10 lg:h-16"
+                    width={35}
+                    height={35}
+                    className="lg:w-16 w-10 h-auto lg:h-auto"
                   />
                   <h1 className="font-semibold text-lg md:text-sm">{rank}</h1>
                 </div>

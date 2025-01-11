@@ -1,5 +1,6 @@
 "use client";
 import { checkGame } from "@/data/checkGame";
+import { useAppStore } from "@/store/useStore";
 
 import { formatDistanceToNow } from "date-fns";
 import { Mic, MicOff } from "lucide-react";
@@ -32,6 +33,7 @@ interface FilterProps {
 
 const GameTable: React.FC<FilterProps> = ({ filters }) => {
   const [games, setGames] = useState<Game[]>([]);
+  const signal = useAppStore((state) => state.signal);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -46,15 +48,19 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
     };
 
     fetchPosts();
-  }, []);
+  }, [signal]);
 
   const filteredGames = games.filter((game: Game) => {
     const { game: gameFilter, gameMode, rank, language } = filters;
 
     return (
       (gameFilter === "Any Game" || !gameFilter || game.game === gameFilter) &&
-      (!gameMode || game.gameMode === gameMode || gameMode === "Any Gamemode") &&
-      (rank === "Any Rank" || !rank || game.rank.toLocaleLowerCase() === rank.toLocaleLowerCase()) &&
+      (!gameMode ||
+        game.gameMode === gameMode ||
+        gameMode === "Any Gamemode") &&
+      (rank === "Any Rank" ||
+        !rank ||
+        game.rank.toLocaleLowerCase() === rank.toLocaleLowerCase()) &&
       (!language || game.language === language || language === "Any Language")
     );
   });
@@ -63,6 +69,7 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
     <div className="overflow-x-auto scrollbar lg:mt-0 mt-4">
       <div className="min-w-max overflow-auto text-sm w-full flex flex-col text-white">
         {/* Table Headers */}
+
         <div className="flex items-center space-x-4 md:px-4 px-2 py-1 md:py-2 rounded-t-md">
           <div className="w-16 flex-none text-center font-bold">Game</div>
           <div className="flex-none w-48 font-bold">Username</div>
@@ -118,19 +125,16 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
                 </div>
 
                 {/* Rank */}
-                <div className="w-32 flex-none flex items-center gap-2">
+                <div className="w-32 flex-none flex items-center gap-x-2">
+                  <Image
+                    src={game.rankIcon}
+                    width={25}
+                    height={25}
+                    alt="Game profile picture"
+                  />
                   <span className="font-semibold text-[#cfcfcf] text-xs">
                     {game.rank}
                   </span>
-                  
-                    <Image
-                      src={game.rankIcon}
-                      className="-mt-2"
-                      width={35}
-                      height={35}
-                      alt="Game profile picture"
-                    />
-                  
                 </div>
 
                 {/* Win Rate */}
@@ -143,12 +147,14 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
                 >
                   {game.winRate}%
                 </div>
-                <div className="w-24 flex-none text-xs font-bold">{game.language}</div>
+                <div className="w-24 flex-none text-xs font-bold">
+                  {game.language}
+                </div>
                 {/* Note */}
                 <div className="flex-1">
-                    <p className="text-xs border w-36 h-auto border-[#1E1E1E] p-2 rounded bg-[#252525] overflow-x-auto whitespace-nowrap scrollbar">
+                  <p className="text-xs border w-36 h-auto border-[#1E1E1E] p-2 rounded bg-[#252525] overflow-x-auto whitespace-nowrap scrollbar">
                     {game.note || "No note"}
-                    </p>
+                  </p>
                 </div>
 
                 {/* Request Button */}

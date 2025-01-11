@@ -41,7 +41,7 @@ const PostPopUp: React.FC<PopUpProps> = ({
             <X />
           </button>
         </div>
-        {session?.user.riotId && session?.user.id ? (
+        {(session?.user.riotId || session?.user.epicId) && session?.user.id ? (
           <div>
             <PostForm
               onCreatePost={setCreatePost}
