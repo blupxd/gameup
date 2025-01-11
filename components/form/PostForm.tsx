@@ -40,7 +40,7 @@ const PostForm: React.FC<PostFormProps> = ({
   const [language, setLanguage] = useState<string>("Any Language");
   const methods = useForm({
     defaultValues: {
-      id: session?.user.id || "",
+      id: "",
       game: game || "",
       gameUsername: session?.user.riotId || "",
       gameMode: "",
@@ -115,15 +115,25 @@ const PostForm: React.FC<PostFormProps> = ({
     }
   };
 
-  const { name, profileIcon, level,playerName,gameIcon, rank, rankIcon, modes, winRate } =
-    checkWhichGame();
+  const {
+    name,
+    profileIcon,
+    level,
+    playerName,
+    gameIcon,
+    rank,
+    rankIcon,
+    modes,
+    winRate,
+  } = checkWhichGame();
   useEffect(() => {
     methods.setValue("gameMode", selectedMode[0]);
     methods.setValue("language", language);
     methods.setValue("rank", rank);
     methods.setValue("rankIcon", rankIcon);
     methods.setValue("winRate", winRate + "");
-  }, [selectedMode, language, rank, rankIcon, winRate]);
+    methods.setValue("gameUsername", playerName + "");
+  }, [selectedMode, language, rank, rankIcon, winRate, playerName]);
   useEffect(() => {
     setSelectedMode(modes[0]);
     methods.setValue("gameMode", selectedMode[0]);
@@ -161,13 +171,20 @@ const PostForm: React.FC<PostFormProps> = ({
             <div className="flex flex-col max-w-max">
               <h1 className="mb-2">Game</h1>
               <div className="px-4 text-sm py-2 border rounded border-[#707070] bg-[#171717] flex items-center">
-                <Image src={gameIcon + ""} alt="game_icon" width={15} height={15} className="mr-2 max-w-max"/> {name}
+                <Image
+                  src={gameIcon + ""}
+                  alt="game_icon"
+                  width={15}
+                  height={15}
+                  className="mr-2 max-w-max"
+                />{" "}
+                {name}
               </div>
             </div>
             <div className="flex flex-col  max-w-max">
               <h1 className="mb-2">Gamemode</h1>
               <Dropdown
-              className="w-52"
+                className="w-52"
                 overflown={true}
                 items={modes.map((mode) => mode[0])}
                 placeholder={modes[0][0]}
@@ -191,9 +208,7 @@ const PostForm: React.FC<PostFormProps> = ({
                   />
                 </div>
                 <div className="flex flex-col">
-                  <h1 className="text-lg font-bold text-white">
-                    {playerName}
-                  </h1>
+                  <h1 className="text-lg font-bold text-white">{playerName}</h1>
                   <h2 className="text-sm font-bold text-[#5AECE5]">
                     Level {level}
                   </h2>
