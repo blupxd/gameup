@@ -150,8 +150,8 @@ const FortInfo: React.FC<FortInfoProps> = ({
                 <Image
                   src={
                     profileData.rank
-                      ? `/assets/fortnite/ranked_emblems/${profileData.rank}.png`
-                      : "/assets/fortnite/ranked_emblems/Unknown.png"
+                      ? `/assets/fortnite/ranked_emblems/${profileData.rank}.PNG`
+                      : "/assets/fortnite/ranked_emblems/Unknown.PNG"
                   }
                   alt="Rank"
                   width={75}
