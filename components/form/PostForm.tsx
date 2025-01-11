@@ -40,9 +40,9 @@ const PostForm: React.FC<PostFormProps> = ({
   const [language, setLanguage] = useState<string>("Any Language");
   const methods = useForm({
     defaultValues: {
-      id: "",
+      id: session?.user.id || "",
       game: game || "",
-      gameUsername: session?.user.riotId || "",
+      gameUsername: "",
       gameMode: "",
       rank: "",
       rankIcon: "",
