@@ -156,7 +156,7 @@ const FortInfo: React.FC<FortInfoProps> = ({
                   alt="Rank"
                   width={75}
                   height={75}
-                  className="mt-2 md:w-auto w-full h-full md:h-auto"
+                  className="mt-2 w-24 h-full"
                 />
 
                 <h1 className="font-semibold text-2xl lg:text-xl">
