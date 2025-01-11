@@ -104,15 +104,15 @@ const ValInfo: React.FC<ValInfoProps> = ({
               }
             />
             <div className="flex items-center space-x-2">
-              <div className="bg-[#1a1a1a]/90 rounded-full p-4 flex justify-center items-center w-24 h-24">
+             
                 <Image
                   src={profileData.rank[1]}
                   alt="Rank"
                   width={100}
                   height={100}
-                  className="-mt-2 md:w-auto w-full h-full md:h-auto"
+                  className="mt-2 h-full w-24 lg:w-20"
                 />
-              </div>
+              
               <h1 className="font-semibold text-2xl lg:text-xl">
                 {profileData.rank[0]}
               </h1>
