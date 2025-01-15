@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import TextInput from "@/components/form/TextInput";
 import Dropdown from "../Dropdown";
-import { fnGM, lolGM, valGM } from "@/data/gamemodes";
+import { csGM, fnGM, lolGM, valGM } from "@/data/gamemodes";
 import { Earth } from "lucide-react";
 import { languages } from "@/data/languages";
 import Image from "next/image";
 import { displayRank } from "@/data/leagueRankDisplay";
 import ToggleSwitch from "./ToggleSwitch";
 import { useAppStore } from "@/store/useStore";
+import { sortRank } from "@/data/sortRank";
 
 interface Session {
   user: {
@@ -110,6 +111,18 @@ const PostForm: React.FC<PostFormProps> = ({
           rank: playerData?.rank,
           winRate: playerData?.winRate,
         };
+      case "CS2":
+        return {
+          name: "CS2",
+          modes: csGM,
+          gameIcon: "/assets/game_icons/cs2.png",
+          playerName: "Cockta 1.5L 79.99",
+          profileIcon: playerData?.icon,
+          level: playerData?.level,
+          rankIcon: sortRank(playerData?.rank)?.[0],
+          rank: playerData?.rank,
+          winRate: playerData?.winRate,
+        };
       default:
         return { name: "", modes: [], profileIcon: "/images/default-icon.png" }; // Opšta default ikonica
     }
@@ -129,7 +142,7 @@ const PostForm: React.FC<PostFormProps> = ({
   useEffect(() => {
     methods.setValue("gameMode", selectedMode[0]);
     methods.setValue("language", language);
-    methods.setValue("rank", rank);
+    methods.setValue("rank", rank + "");
     methods.setValue("rankIcon", rankIcon);
     methods.setValue("winRate", winRate + "");
     methods.setValue("gameUsername", playerName + "");
@@ -222,16 +235,34 @@ const PostForm: React.FC<PostFormProps> = ({
                   {modes.find((mode) => mode[1] === selectedMode[1])?.[0] ||
                     modes[0][0]}
                 </h1>
-                <div className="flex items-center space-x-2">
-                  <Image
-                    src={rankIcon}
-                    alt="Rank"
-                    width={35}
-                    height={35}
-                    className="lg:w-16 w-10 h-auto lg:h-auto"
-                  />
-                  <h1 className="font-semibold text-lg md:text-sm">{rank}</h1>
-                </div>
+                {game === "CS2" ? (
+                  <div className="relative flex justify-center max-w-max items-center">
+                    <Image
+                      src={rankIcon}
+                      alt="Rank"
+                      width={75}
+                      height={75}
+                      className="lg:w-16 w-10 h-auto lg:h-auto"
+                    />
+                    <h1
+                      style={{ color: sortRank(rank)?.[1] }}
+                      className="absolute left-3 z-10 italic font-bold text-lg md:text-sm text-center"
+                    >
+                      {rank}
+                    </h1>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <Image
+                      src={rankIcon}
+                      alt="Rank"
+                      width={35}
+                      height={35}
+                      className="lg:w-16 w-10 h-auto lg:h-auto"
+                    />
+                    <h1 className="font-semibold text-lg md:text-sm">{rank}</h1>
+                  </div>
+                )}
               </div>
             </div>
           )}

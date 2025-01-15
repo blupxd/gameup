@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
-import { fn, lol, val } from "@/data/ranks";
-import { fnGM, lolGM, valGM } from "@/data/gamemodes";
+import { fn, lol, cs, val } from "@/data/ranks";
+import { csGM, fnGM, lolGM, valGM } from "@/data/gamemodes";
 import { Earth } from "lucide-react";
 import { languages } from "@/data/languages";
 import PostPopUp from "./post/PostPopUp";
@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import LolInfo from "./LolInfo";
 import ValInfo from "./ValInfo";
 import FortInfo from "./FortInfo";
+import CS2Info from "./CS2Info";
 
 interface TableFilters {
   game: string;
@@ -39,12 +40,15 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
         return [fn, fnGM];
       case "Valorant":
         return [val, valGM];
+      case "CS2":
+        return [cs, csGM];
       default:
         return [["Unknown Rank"], [["Unknown Mode", "unknown_mode"]]]; // Default fallback
     }
   };
   const [gameMode, setGameMode] = useState<string>(checkWhichGame()[1][0][0]);
   useEffect(() => {
+    console.log(session?.user.epicId)
     onChange({ game: gameName, rank, gameMode, language });
   }, [rank, gameMode, language]);
 
@@ -80,6 +84,15 @@ const ProfileStats: React.FC<StatsProps> = ({ gameName, onChange }) => {
                 getPlayerData={setPlayerData}
                 epicId={session?.user.epicId}
                 gameModes={fnGM}
+              />
+            );
+        case "CS2":
+          if (session.user.steamid !== "null")
+            return (
+              <CS2Info
+                steamid={session?.user.steamid}
+                gameModes={csGM}
+                getPlayerData={setPlayerData}
               />
             );
       }

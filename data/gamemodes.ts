@@ -14,3 +14,7 @@ export const valGM: string[][] = [
     ["Competitive", "competitive"],
     ["Unrated", "unrated"],
 ]
+export const csGM: string[][] = [
+    ["5vs5", "5vs5"],
+    ["2vs2", "2vs2"],
+]

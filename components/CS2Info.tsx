@@ -2,96 +2,46 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { calculateRank } from "@/data/fortniteRankCalculator";
+import { sortRank } from "@/data/sortRank";
 
 interface ProfileData {
   icon: string;
-  rank: string;
+  rank: number;
   level: number;
   wins: number;
   kd: number;
-  top5: number;
-  top10: number;
-  top25: number;
-  matches: number;
+  adr: number;
+  hs: number;
   winRate: number;
 }
 
-interface FortInfoProps {
-  epicId: string | undefined;
+interface CSInfoProps {
+  steamid: string | undefined;
   gameModes: string[][];
   getPlayerData: (data: any) => void;
 }
 
-const FortInfo: React.FC<FortInfoProps> = ({
-  epicId,
-  getPlayerData,
-}) => {
-
-  const stats = [
-    "Wins",
-    "K/D",
-    "Top 5",
-    "Top 10",
-    "Top 25",
-    "Matches",
-    "Win Rate",
-  ];
+const CS2Info: React.FC<CSInfoProps> = ({ steamid, getPlayerData }) => {
+  const stats = ["Wins", "K/D", "Win Rate", "ADR", "HS%"];
   const statKeyMapping: { [key: string]: keyof ProfileData } = {
     Wins: "wins",
     "K/D": "kd",
-    "Top 5": "top5",
-    "Top 10": "top10",
-    "Top 25": "top25",
-    Matches: "matches",
     "Win Rate": "winRate",
+    ADR: "adr",
+    "HS%": "hs",
   };
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [profileData, setProfileData] = useState<ProfileData>({
+    icon: "https://avatars.fastly.steamstatic.com/ec6641cab08854aaaece050a517c0828d8c186a9_full.jpg",
+    rank: 25500,
+    level: 10,
+    wins: 100,
+    kd: 1.5,
+    adr: 100,
+    hs: 50,
+    winRate: 20,
+  });
   const [error, setError] = useState<boolean>(false);
-  useEffect(() => {
-    
-    const fetchData = async () => {
-      const params = new URLSearchParams({
-        name: "" + epicId?.split(" ")[0],
-        accountType: "" + epicId?.split(" ")[1],
-        timeWindow: "season",
-      });
-      
-      const url = `https://fortnite-api.com/v2/stats/br/v2?${params.toString()}`;
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Authorization: "" + process.env.NEXT_PUBLIC_FORTNITE_API_KEY,
-          },
-        });
-        const data = await response.json();
-        calculateRank(data.data.stats.all.overall);
-        const playerData = {
-          icon: `/assets/fortnite/icons/${Math.floor(Math.random() * 6) + 1}.jpg`,
-          rank: calculateRank(data.data.stats.all.overall),
-          level: data.data.battlePass.level,
-          wins: data.data.stats.all.overall.wins,
-          kd: data.data.stats.all.overall.kd,
-          top5: data.data.stats.all.overall.top5,
-          top10: data.data.stats.all.overall.top10,
-          top25: data.data.stats.all.overall.top25,
-          matches: data.data.stats.all.overall.matches,
-          winRate: data.data.stats.all.overall.winRate,
-        };
-        if (!response.ok || !data || !data.data || !data.data.stats) {
-          setError(true);
-          return;
-        } else {
-          getPlayerData(playerData);
-          setProfileData(playerData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [epicId]);
-
+  useEffect(() => {getPlayerData(profileData)},[])
   return (
     <div className="mb-6">
       {profileData ? (
@@ -109,7 +59,7 @@ const FortInfo: React.FC<FortInfoProps> = ({
               <div className="flex flex-col">
                 <div className="flex flex-col xl:flex-row xl:items-center xl:space-x-4">
                   <h1 className="text-xl font-bold text-white">
-                    {epicId?.split("-+")[0]}
+                    Cockta 1.5L 79.99
                   </h1>
                   <h2 className="text-xl font-bold text-[#5AECE5]">
                     Level {profileData.level}
@@ -143,25 +93,20 @@ const FortInfo: React.FC<FortInfoProps> = ({
 
             <div className="flex flex-col w-full lg:w-64">
               <h1 className="text-xl flex flex-col font-bold">
-                Overall Rank
-                <span className="text-xs font-normal text-[#fa9dd7]">
-                  (calculated by your perfomance)
-                </span>
+                Comeptitive Rank
               </h1>
-              <div className="flex items-center space-x-2">
+              <div className="relative flex justify-center max-w-max items-center">
                 <Image
-                  src={
-                    profileData.rank
-                      ? `/assets/fortnite/ranked_emblems/${profileData.rank}.PNG`
-                      : "/assets/fortnite/ranked_emblems/Unknown.PNG"
-                  }
+                  src={sortRank(profileData.rank)?.[0] + ""}
                   alt="Rank"
                   width={75}
                   height={75}
-                  className="mt-2 w-24 h-full"
+                  className="w-24 h-full"
                 />
-
-                <h1 className="font-semibold text-2xl lg:text-xl">
+                <h1
+                  style={{ color: sortRank(profileData.rank)?.[1] }}
+                  className="absolute left-5 z-10 italic font-bold text-2xl lg:text-xl text-center"
+                >
                   {profileData.rank}
                 </h1>
               </div>
@@ -182,4 +127,4 @@ const FortInfo: React.FC<FortInfoProps> = ({
   );
 };
 
-export default FortInfo;
+export default CS2Info;

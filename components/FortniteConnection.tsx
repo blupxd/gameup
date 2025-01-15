@@ -48,7 +48,7 @@ const FortniteConnection: React.FC<ConnectionPopUpProps> = ({
       if (!response.ok) throw new Error("Failed to update RiotID");
       alert("User Updated successfully");
       await update({
-        epicId: data.epicId,
+        epicId: `${data.epicId} ${platform}`,
       });
     } catch (error: unknown) {
       alert(error);

@@ -25,6 +25,20 @@ model User {
   regionalRoute String?
   posts         Post[]
   comments      Comment[] @relation("UserComments")
+  invites       Invite[]
+  sentInvites   Invite[]  @relation("SentInvites")
+}
+
+model Invite {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?  @unique
+  user      User     @relation(fields: [userId], references: [id])
+  senderId  String
+  message   String
+  sender    User     @relation("SentInvites", fields: [senderId], references: [id])
+  createdAt DateTime @default(now())
+  accepted  Boolean  @default(false)
 }
 
 model Comment {

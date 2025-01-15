@@ -4,6 +4,7 @@ import { UserCircle } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import InviteNotification from "./InviteNotification";
 
 interface User {
   username?: string;
@@ -52,7 +53,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ session }) => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative flex items-center space-x-6">
+      <InviteNotification />
       <button
         onClick={toggleDropdown}
         className="px-4 py-2 rounded md:bg-[#5AECE5] text-white md:text-[#1c1c1c] font-bold"

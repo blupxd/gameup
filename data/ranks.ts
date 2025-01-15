@@ -84,3 +84,14 @@ export const val: string[] = [
   "Immortal III",
   "Radiant",
 ]
+
+export const cs: string[] = [
+  "Any Rank",
+  "0-4999",
+  "5000-9999",
+  "10000-14900",
+  "15000-19999",
+  "20000-24999",
+  "25000-29999",
+  "30000"
+]
