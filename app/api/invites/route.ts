@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
     const userId = session.user.id;
     const existingInvite = await db.invite.findFirst({
-      where: { postId: postId as string },
+      where: { postId: postId as string, senderId: senderId as string },
     });
     console.log({ postId, existingInvite });
     if (existingInvite) {

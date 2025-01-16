@@ -18,12 +18,13 @@ interface TableFilters {
 const Page: React.FC = () => {
   const { data: session, update } = useSession();
   const steamId = session?.user.steamid || "null";
-
   useEffect(() => {
+    console.log(session?.user.steamid)
     if (session?.user.steamid === "null") {
       // Trying to get steamId from client-side cookies
       const storedSteamId = getCookie("steamId") as string | undefined;
       if (storedSteamId) {
+        
         update({
           steamid: storedSteamId || "null",
         }); // Update the session to get the latest data
