@@ -10,7 +10,7 @@ import DropdownLinks from "./DropdownLinks";
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
   return (
-    <nav className="flex w-full bg-gradient-to-b from-black/60 to-transparent flex-col fixed max-h-max z-20 px-4 md:px-20">
+    <nav className="flex w-full bg-gradient-to-b backdrop-blur-sm from-black/80 to-transparent flex-col fixed max-h-max z-20 px-4 md:px-20">
       <div className="flex py-4 justify-between items-center">
         <div className="flex items-center space-x-2">
           <Link href="/" className="max-w-max text-2xl">

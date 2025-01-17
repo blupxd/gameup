@@ -1,6 +1,6 @@
 "use client";
 
-import { UserCircle } from "lucide-react";
+import { LogOut, UserCircle } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -57,24 +57,28 @@ const UserProfile: React.FC<UserProfileProps> = ({ session }) => {
       <InviteNotification />
       <button
         onClick={toggleDropdown}
-        className="px-4 py-2 rounded md:bg-[#5AECE5] text-white md:text-[#1c1c1c] font-bold"
+        className="px-4 py-2 rounded md:bg-[#1E1E1E] text-white font-bold"
       >
         <p className="hidden md:flex">{currentSession.user.username}</p>
         <UserCircle className="md:hidden flex" size={32} />
       </button>
       {isDropdownVisible && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg transition-opacity duration-300">
+        <div className="absolute right-0 top-full w-48 mt-2 bg-[#171717]/90 border border-[#707070] rounded shadow-lg transition-opacity duration-300">
           <Link
-            href="/profile"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+            onClick={toggleDropdown}
+            href={`/profile/${currentSession.user.username}`}
+            className="block px-4 py-2 text-[#a3a3a3] hover:bg-[#323232]"
           >
             Profile
           </Link>
           <button
-            onClick={() => signOut()}
-            className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+            onClick={() => {
+              toggleDropdown();
+              signOut();
+            }}
+            className="flex items-center w-full text-left px-4 py-2 text-[#a3a3a3] hover:bg-[#323232]"
           >
-            Sign out
+            <LogOut size={16} className="mr-2" /> Sign out
           </button>
         </div>
       )}

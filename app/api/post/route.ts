@@ -58,6 +58,41 @@ export async function POST(req: Request) {
   }
 }
 
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    const { postId } = await req.json();
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const post = await db.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        authorId: true,
+      },
+    });
+    if (!post) {
+      return NextResponse.json({ message: "Post not found" }, { status: 404 });
+    }
+    if (session.user.id !== post.authorId) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+    await db.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+    return NextResponse.json({ message: "Post deleted successfully" }, { status: 200 });
+  } catch (error: any) {
+    console.log(error.stack);
+    const errorMessage =
+      error instanceof Error ? error.message : "An error occurred!";
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
+  }
+}
+
 export async function GET() {
   try {
     const posts = await db.post.findMany({

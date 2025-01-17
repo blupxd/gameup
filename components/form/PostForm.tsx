@@ -107,7 +107,7 @@ const PostForm: React.FC<PostFormProps> = ({
           playerName: session?.user.epicId.split("-+")[0],
           profileIcon: playerData?.icon,
           level: playerData?.level,
-          rankIcon: `/assets/fortnite/ranked_emblems/${playerData?.rank}.png`,
+          rankIcon: `/assets/fortnite/ranked_emblems/${playerData?.rank}.PNG`,
           rank: playerData?.rank,
           winRate: playerData?.winRate,
         };

@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import TextInput from "@/components/form/TextInput";
 import Link from "next/link";
+import { Loader } from "lucide-react";
 
 const schema = z
   .object({
@@ -26,6 +27,8 @@ const schema = z
   });
 
 const RegisterForm = () => {
+  const [registering, setRegistering] = useState<boolean>(false);
+  const [existingUser, setExistingUser] = useState<boolean>(false);
   const methods = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -36,9 +39,10 @@ const RegisterForm = () => {
       terms: false,
     },
   });
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     try {
+      setRegistering(true);
       const response = await fetch("/api/auth/user", {
         method: "POST",
         headers: {
@@ -46,7 +50,12 @@ const RegisterForm = () => {
         },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error("Failed to register");
+      if (response.status === 409) {
+        setRegistering(false);
+        setExistingUser(true);
+        return;
+      }
+
       window.location.replace("/login");
     } catch (error: unknown) {
       console.error(error);
@@ -59,6 +68,11 @@ const RegisterForm = () => {
         onSubmit={methods.handleSubmit(onSubmit)}
         className="flex mt-6 flex-col w-full md:w-96"
       >
+        {existingUser && (
+          <p className="text-red-500 text-sm mb-1">
+            User with the same email or username already exists.
+          </p>
+        )}
         <TextInput label="Email" type="email" name="email" />
         <TextInput label="Username" type="text" name="username" />
         <TextInput label="Password" type="password" name="password" />
@@ -77,7 +91,9 @@ const RegisterForm = () => {
             className="h-4 w-4 accent-[#5AECE5] rounded focus:ring-0"
           />
           <label htmlFor="terms" className="ml-2 text-sm text-white underline">
-            <Link href={"/terms"}>I have read and accept terms & conditions</Link>
+            <Link href={"/terms"}>
+              I have read and accept terms & conditions
+            </Link>
           </label>
         </div>
         {methods.formState.errors.terms && (
@@ -87,9 +103,11 @@ const RegisterForm = () => {
         )}
         <button
           type="submit"
-          className="mt-12 bg-[#5AECE5] border-2 border-[#5b9e9b] text-[#1c1c1c] font-bold py-1.5 px-4 rounded"
+          disabled={registering}
+          className="mt-12 bg-[#5AECE5] border-2 justify-center flex items-center border-[#5b9e9b] text-[#1c1c1c] font-bold py-1.5 px-4 rounded"
         >
           Create an account
+          {registering && <Loader size={16} className="animate-spin ml-2" />}
         </button>
       </form>
     </FormProvider>

@@ -32,13 +32,13 @@ model User {
 model Invite {
   id        String   @id @default(cuid())
   userId    String
-  postId    String?  @unique
+  postId    String?
   user      User     @relation(fields: [userId], references: [id])
   senderId  String
   message   String
   sender    User     @relation("SentInvites", fields: [senderId], references: [id])
   createdAt DateTime @default(now())
-  accepted  Boolean  @default(false)
+  accepted  String  @default("pending")
 }
 
 model Comment {

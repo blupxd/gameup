@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="relative h-auto flex flex-col py-48 px-4 md:px-20">
-      <section className="flex z-10 flex-col">
+    <main className="relative h-auto flex w-full flex-col ">
+      <section className="flex z-10 flex-col py-48 px-4 md:px-20">
         <Hero />
         <GameSection />
         <section className="flex flex-col">
@@ -27,9 +27,8 @@ export default function Home() {
           src="/assets/BG.png"
           alt="Bg"
           quality={100}
-          width={1920}
-          height={1080}
-          className="md:h-auto md:w-full w-full h-1/2 md:object-none object-cover"
+          fill
+          className="object-cover"
         />
       </div>
     </main>

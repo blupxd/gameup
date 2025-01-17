@@ -2,12 +2,13 @@
 import { checkGame } from "@/data/checkGame";
 import { sortRank } from "@/data/sortRank";
 import { useAppStore } from "@/store/useStore";
-
 import { formatDistanceToNow } from "date-fns";
 import { Mic, MicOff } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import InviteButton from "./InviteButton";
+import { useSession } from "next-auth/react";
+import DeletePost from "./DeletePost";
 
 interface Game {
   id: string;
@@ -38,7 +39,7 @@ interface FilterProps {
 const GameTable: React.FC<FilterProps> = ({ filters }) => {
   const [games, setGames] = useState<Game[]>([]);
   const signal = useAppStore((state) => state.signal);
-
+  const { data: session } = useSession();
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -56,7 +57,6 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
 
   const filteredGames = games.filter((game: Game) => {
     const { game: gameFilter, gameMode, rank, language } = filters;
-
     const isRankInRange = (rank: string, gameRank: string) => {
       if (rank === "Any Rank") return true;
       const rankValue = parseInt(gameRank, 10);
@@ -93,7 +93,6 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
       (!language || game.language === language || language === "Any Language")
     );
   });
-  console.log({ filteredGames, filters });
   return (
     <div className="overflow-x-auto scrollbar lg:mt-0 mt-4">
       <div className="min-w-max overflow-auto text-sm w-full flex flex-col text-white">
@@ -208,11 +207,15 @@ const GameTable: React.FC<FilterProps> = ({ filters }) => {
 
                 {/* Request Button */}
                 <div className="flex-1 text-center">
-                  <InviteButton
-                    postId={game.id}
-                    gameName={game.game}
-                    toUserId={game?.author?.id + ""}
-                  />
+                  {session?.user?.id === game.author.id ? (
+                    <DeletePost postId={game.id} />
+                  ) : (
+                    <InviteButton
+                      postId={game.id}
+                      gameName={game.game}
+                      toUserId={game?.author?.id + ""}
+                    />
+                  )}
                 </div>
               </div>
             ))
