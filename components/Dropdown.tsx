@@ -28,7 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className={`relative flex text-sm z-20 flex-col ${className}`}>
+    <div className={`relative flex text-sm flex-col ${className}`}>
       <div
         onClick={() => setOpen(!open)}
         className="px-6 cursor-pointer py-2 border rounded border-[#707070] bg-[#171717] flex items-center"

@@ -8,7 +8,7 @@ export const fnGM: string[][] = [
 ]
 export const lolGM: string[][] = [
     ["Ranked Solo/Duo", "RANKED_SOLO_5x5"],
-    ["Ranked Flex", "RANKED_TEAM_5x5"],
+    ["Ranked Flex", "RANKED_FLEX_SR"],
 ]
 export const valGM: string[][] = [
     ["Competitive", "competitive"],

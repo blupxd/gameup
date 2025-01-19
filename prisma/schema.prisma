@@ -14,19 +14,20 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  username      String    @unique
-  password      String
-  riotId        String?   @unique
-  epicId        String?   @unique
-  steamid       String?   @unique
-  platformRoute String?
-  regionalRoute String?
-  posts         Post[]
-  comments      Comment[] @relation("UserComments")
-  invites       Invite[]
-  sentInvites   Invite[]  @relation("SentInvites")
+  id              String    @id @default(cuid())
+  email           String    @unique
+  username        String    @unique
+  password        String
+  riotId          String?   @unique
+  epicId          String?   @unique
+  steamid         String?   @unique
+  platformRoute   String?
+  regionalRoute   String?
+  posts           Post[]
+  comments        Comment[] @relation("UserComments")
+  profileComments Comment[] @relation("ProfileComments")
+  invites         Invite[]
+  sentInvites     Invite[]  @relation("SentInvites")
 }
 
 model Invite {
@@ -38,7 +39,7 @@ model Invite {
   message   String
   sender    User     @relation("SentInvites", fields: [senderId], references: [id])
   createdAt DateTime @default(now())
-  accepted  String  @default("pending")
+  accepted  String   @default("pending")
 }
 
 model Comment {
@@ -47,8 +48,10 @@ model Comment {
   createdAt DateTime  @default(now())
   authorId  String
   author    User      @relation("UserComments", fields: [authorId], references: [id])
+  userId    String
+  user      User      @relation("ProfileComments", fields: [userId], references: [id])
   parentId  String?
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parent    Comment?  @relation("CommentReplies", onDelete: Cascade, fields: [parentId], references: [id])
   replies   Comment[] @relation("CommentReplies")
 }
 

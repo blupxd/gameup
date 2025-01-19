@@ -13,7 +13,7 @@ export const games: Game[] = [
     icon: "/assets/game_icons/val.png",
   },
   {
-    name: "Counter-Strike 2",
+    name: "CS2",
     icon: "/assets/game_icons/cs2.png",
   },
   {

@@ -48,6 +48,40 @@ export async function POST(req: Request) {
   }
 }
 
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get("username");
+  try {
+    if (!username)
+      return NextResponse.json(
+        { message: "Username is required" },
+        { status: 400 }
+      );
+    const user = await db.user.findUnique({
+      where: { username: username + "" },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        riotId: true,
+        epicId: true,
+        steamid: true,
+        platformRoute: true,
+        regionalRoute: true,
+        comments: true,
+      },
+    });
+    if (!user)
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    return NextResponse.json(user, { status: 200 });
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage =
+      error instanceof Error ? error.message : "An error occurred!";
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
+  }
+}
+
 export async function PATCH(request: Request) {
   try {
     const {
