@@ -1,0 +1,57 @@
+{
+    "SummonerPoroThrow": {
+      "id": "SummonerPoroThrow",
+      "key": "31",
+      "description": "Throw a poro at a location, granting vision."
+    },
+    "SummonerSmite": {
+      "id": "SummonerSmite",
+      "key": "11",
+      "description": "Deals 600-1200 true damage to target large monster."
+    },
+    "SummonerFlash": {
+      "id": "SummonerFlash",
+      "key": "4",
+      "description": "Teleports your champion a short distance toward your cursor's location."
+    },
+    "SummonerHeal": {
+      "id": "SummonerHeal",
+      "key": "7",
+      "description": "Restores Health to your champion and an ally."
+    },
+    "SummonerBarrier": {
+      "id": "SummonerBarrier",
+      "key": "21",
+      "description": "Shields your champion from damage for a short duration."
+    },
+    "SummonerGhost": {
+      "id": "SummonerGhost",
+      "key": "6",
+      "description": "Grants increased movement speed and allows you to move through units."
+    },
+    "SummonerExhaust": {
+      "id": "SummonerExhaust",
+      "key": "3",
+      "description": "Reduces a target enemy champion's movement speed and damage dealt."
+    },
+    "SummonerTeleport": {
+      "id": "SummonerTeleport",
+      "key": "12",
+      "description": "After channeling for a few seconds, teleports your champion to a target allied structure, minion, or ward."
+    },
+    "SummonerIgnite": {
+      "id": "SummonerIgnite",
+      "key": "14",
+      "description": "Ignites target enemy champion, dealing damage over time and reducing healing effects."
+    },
+    "SummonerClarity": {
+      "id": "SummonerClarity",
+      "key": "13",
+      "description": "Restores Mana to your champion and nearby allies."
+    },
+    "SummonerCleanse": {
+      "id": "SummonerCleanse",
+      "key": "1",
+      "description": "Removes all disables and summoner spell debuffs affecting your champion."
+    }
+  }

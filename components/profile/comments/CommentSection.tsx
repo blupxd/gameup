@@ -144,7 +144,7 @@ const CommentSection: React.FC<{ userId: string }> = ({ userId }) => {
   };
 
   return (
-    <div className="flex flex-col lg:col-span-1 col-span-2">
+    <div className="flex flex-col w-full lg:w-[40%]">
       <h1 className="text-xl font-bold">Impressions</h1>
       <div className="mt-4 flex flex-col space-y-4 rounded border border-[#303030] p-4 bg-[#1e1e1e]">
         {loading ? (
@@ -175,7 +175,7 @@ const CommentSection: React.FC<{ userId: string }> = ({ userId }) => {
         )}
       </div>
       {session && (
-        <div className="mt-4 flex flex-col space-y-2">
+        <div className="mt-4 text-xs flex flex-col space-y-2">
           <textarea
             className="w-full focus:outline-none focus:border-[#5b5b5b] p-2 rounded border border-[#303030] bg-[#1e1e1e] text-white"
             rows={1}
@@ -184,7 +184,7 @@ const CommentSection: React.FC<{ userId: string }> = ({ userId }) => {
             placeholder="Write a comment..."
           />
           <button
-            className="text-sm w-full md:max-w-max px-4 self-end py-2 md:py-1 mt-2 max-h-max border rounded border-[#4cc2bc] bg-[#55c2bd]"
+            className="text-xs w-full md:max-w-max px-4 self-end py-2 md:py-1 mt-2 max-h-max border rounded border-[#4cc2bc] bg-[#55c2bd]"
             onClick={() => handlePostComment()}
           >
             Post Comment

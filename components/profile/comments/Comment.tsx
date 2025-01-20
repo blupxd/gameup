@@ -45,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({
   handlePostComment,
 }) => {
   return (
-    <div key={comment.id} className="flex flex-col leading-4">
+    <div key={comment.id} className="flex text-xs flex-col leading-4">
       <div className="flex items-center space-x-2">
         <Link href={`/profile/${comment.author.username}`}
           className={`font-bold hover:underline flex items-center ${
@@ -55,14 +55,14 @@ const Comment: React.FC<CommentProps> = ({
         >
           {comment.author.username}
           {session?.user.username === comment.author.username && (
-            <span className="text-sm ml-1 font-normal">(You)</span>
+            <span className="text-xs ml-1 font-normal">(You)</span>
           )}
         </Link>
-        <p className="text-sm text-gray-400">
+        <p className="text-xs text-[#b8b8b8]">
           {formatDistanceToNow(new Date(comment.createdAt))} ago
         </p>
       </div>
-      <p>{comment.content}</p>
+      <p className="text-xs">{comment.content}</p>
       <div className="flex items-center mt-1 space-x-2">
         {reply === comment.id ? (
           <div className="mt-4 flex flex-col space-y-2 w-full">
@@ -75,13 +75,13 @@ const Comment: React.FC<CommentProps> = ({
             />
             <div className="flex justify-end space-x-2">
               <button
-                className="text-sm max-w-max px-6 py-1 mt-2 max-h-max border rounded border-[#303030] bg-[#252525]"
+                className="text-xs max-w-max px-6 py-1 mt-2 max-h-max border rounded border-[#303030] bg-[#252525]"
                 onClick={() => setReply(null)}
               >
                 Cancel
               </button>
               <button
-                className="text-sm max-w-max px-6 py-1 mt-2 max-h-max border rounded border-[#4cc2bc] bg-[#55c2bd]"
+                className="text-xs max-w-max px-6 py-1 mt-2 max-h-max border rounded border-[#4cc2bc] bg-[#55c2bd]"
                 onClick={() => handlePostComment(comment.id)}
               >
                 Post Reply
@@ -89,7 +89,7 @@ const Comment: React.FC<CommentProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex items-center space-x-4 text-sm text-[#bebebe]">
+          <div className="flex items-center space-x-4 text-xs text-[#bebebe]">
             <button
               className="hover:underline"
               onClick={() => setReply(comment.id)}

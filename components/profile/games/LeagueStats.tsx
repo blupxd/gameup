@@ -1,4 +1,5 @@
 'use client'
+import { useGameProfileContext } from "@/components/context/GameContext";
 import { useProfileContext } from "@/components/context/ProfileContext";
 import Dropdown from "@/components/Dropdown";
 import { lolGM } from "@/data/gamemodes";
@@ -9,7 +10,7 @@ import React, { useEffect, useState, useMemo } from "react";
 const LeagueStats = () => {
   const { profileData: profile } = useProfileContext();
   const [gameMode, setGameMode] = useState<string>(lolGM[0][0]);
-  const [profileData, setProfileData] = useState<any>(null);
+  const { leagueProfileData, setLeagueProfileData } = useGameProfileContext();
 
   // Memoize fetchData to avoid refetching data unnecessarily
   const fetchData = useMemo(() => {
@@ -25,33 +26,33 @@ const LeagueStats = () => {
             body: JSON.stringify({ riotId, regionalRoute, platformRoute }),
           });
           const data = await response.json();
-          console.log(data.rankedData);
-          setProfileData(data);
+          console.log(data);
+          setLeagueProfileData(data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
       fetchDataFromAPI();
     }
-  }, [profile]);
+  }, [profile, setLeagueProfileData]);
 
   useEffect(() => {
     fetchData;  // Invoke the memoized fetchData only if the profile data changes
   }, [fetchData]);
 
   const getRankedData = () =>
-    profileData?.rankedData?.find(
+    leagueProfileData?.rankedData?.find(
       (data: any) =>
         data.queueType === lolGM.find((mode) => mode[0] === gameMode)?.[1]
     );
 
   const rankedData = getRankedData();
   
-  return profileData ? (
+  return leagueProfileData ? (
     <div className="xl:flex grid grid-cols-1 md:grid-cols-2 mt-4 xl:grid-cols-5 xl:gap-0 xl:justify-between gap-8 lg:space-x-4">
       <div className="w-full xl:max-w-max md:col-span-2 col-span-1 lg:col-span-1 xl:col-span-2 flex items-center">
         <Image
-          src={`https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/${profileData.data.profileIconId}.png`}
+          src={`https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/${leagueProfileData.data.profileIconId}.png`}
           alt="Profile Icon"
           width={100}
           height={100}
@@ -60,7 +61,7 @@ const LeagueStats = () => {
         <div className="flex text-xl font-bold w-full flex-col h-full ml-4">
           <h1 className="mb-0">{profile.riotId}</h1>
           <h2 className="text-[#5AECE5] mt-0">
-            Level {profileData.data.summonerLevel}
+            Level {leagueProfileData.data.summonerLevel}
           </h2>
           <button className="text-sm max-w-max px-6 py-1 mt-2 max-h-max border rounded border-[#303030] bg-[#252525]">
             Change
