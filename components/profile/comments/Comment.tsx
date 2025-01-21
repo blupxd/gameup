@@ -58,7 +58,7 @@ const Comment: React.FC<CommentProps> = ({
             <span className="text-xs ml-1 font-normal">(You)</span>
           )}
         </Link>
-        <p className="text-xs text-[#b8b8b8]">
+        <p className="text-[10px] text-[#b8b8b8]">
           {formatDistanceToNow(new Date(comment.createdAt))} ago
         </p>
       </div>

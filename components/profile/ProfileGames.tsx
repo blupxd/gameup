@@ -1,16 +1,18 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Game, games } from "@/data/gameIcons";
 import Image from "next/image";
-import LeagueStats from "./games/LeagueStats";
+import LeagueStats from "./games/lol/LeagueStats";
 import CommentSection from "./comments/CommentSection";
 import { useProfileContext } from "../context/ProfileContext";
-import LeagueMatches from "./games/LeagueMatches";
+import LeagueMatches from "./games/lol/LeagueMatches";
 import { GameProfileProvider } from "../context/GameContext";
+import ValorantStats from "./games/valorant/ValorantStats";
+import ValorantMatches from "./games/valorant/ValorantMatches";
 
 const ProfileGames = () => {
   const [selectedGame, setSelecetedGame] = useState<Game>(games[0]);
-  const { profileData: profile } = useProfileContext();
+  const { profileData: profile, setProfileBG } = useProfileContext();
 
   // Memoize the result of switchGameStats
   const renderedStats = useMemo(() => {
@@ -18,7 +20,7 @@ const ProfileGames = () => {
       case "League of Legends":
         return [<LeagueStats />, <LeagueMatches />];
       case "Valorant":
-        return [<></>];
+        return [<ValorantStats />, <ValorantMatches />];
       case "Fortnite":
         return [<></>];
       case "CS2":
@@ -27,7 +29,18 @@ const ProfileGames = () => {
         return [<></>];
     }
   }, [selectedGame]);
-
+  useEffect(() => {
+    switch (selectedGame.name) {
+      case "League of Legends":
+        setProfileBG("bgLol.png");
+        break;
+      case "Valorant":
+        setProfileBG("bgVal.png");
+        break;
+      default:
+        setProfileBG("");
+    }
+  }, [selectedGame, setProfileBG]);
   return (
     <GameProfileProvider>
       <div className="flex flex-col px-4 py-8 w-full md:px-20">

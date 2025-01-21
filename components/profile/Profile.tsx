@@ -8,7 +8,7 @@ import { useProfileContext } from "../context/ProfileContext";
 
 const Profile = () => {
   const { data: session } = useSession();
-  const { profileData: profile } = useProfileContext();
+  const { profileData: profile, profileBG } = useProfileContext();
   return (
     <div className="relative max-h-[350px] h-[350px] w-full px-20">
       <div className="flex flex-col items-center">
@@ -29,9 +29,10 @@ const Profile = () => {
         </div>
       </div>
       <Image
-        src="/assets/profilepage/bgLol.png"
+        src={`/assets/profilepage/${profileBG}`}
         fill
         className="object-cover"
+        quality={100}
         alt="bgImage"
       />
       <div className="text-xs font-bold absolute top-24 right-4 md:right-20 flex items-center space-x-2">

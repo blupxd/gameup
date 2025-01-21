@@ -1,13 +1,21 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode, useState } from "react";
 
 interface ProfileContextProps {
   profileData: any;
+  profileBG: string;
+  setProfileBG: (bg: string) => void;
 }
 
 const ProfileContext = createContext<ProfileContextProps | undefined>(undefined);
 
-export const ProfileProvider: React.FC<{ profileData: any; children: ReactNode }> = ({ profileData, children }) => {
-  return <ProfileContext.Provider value={{ profileData }}>{children}</ProfileContext.Provider>;
+export const ProfileProvider: React.FC<{ children: ReactNode; profileData: any }> = ({ profileData, children }) => {
+  const [profileBG, setProfileBG] = useState<string>("bgLol.png");
+
+  return (
+    <ProfileContext.Provider value={{ profileData, profileBG, setProfileBG }}>
+      {children}
+    </ProfileContext.Provider>
+  );
 };
 
 export const useProfileContext = () => {
