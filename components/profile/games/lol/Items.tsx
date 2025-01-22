@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 const Items = ({ items }: any) => (
-  <div className="hidden md:flex items-center w-36 mb-auto">
+  <div className="hidden md:flex items-center w-36">
     <div className="grid grid-cols-3 grid-rows-2 gap-1">
       {items.slice(0, 6).map((item: any, index: number) => (
         <div

@@ -38,7 +38,7 @@ const Match = ({ match }: any) => {
 
   return summonerDetails ? (
     <div className="flex lg:flex-row flex-col xl:justify-between w-full xl:items-center bg-[#252525] px-6 py-4 relative rounded overflow-hidden">
-      <div className="flex items-start justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         <div className="z-10 flex flex-col w-40">
           <p className="text-[10px] sm:text-sm md:text-[10px]">
             <span className="font-semibold mr-2">
@@ -111,7 +111,7 @@ const Match = ({ match }: any) => {
         <Items items={summonerDetails.items} />
 
         <div className="flex flex-col space-y-1">
-          <div className="border-l-2 pl-1 border-blue-500 hidden md:grid grid-cols-5 gap-1 items-center z-10 w-32 ml-4">
+          <div className="border-l-2 pl-1 border-blue-500 hidden md:grid grid-cols-5 gap-1 items-center z-20 w-32 ml-4">
             <Participants participants={match.participants.slice(0, 5)} />
           </div>
           <div className="border-l-2 pl-1 border-red-500 hidden md:grid grid-cols-5 gap-1 items-center z-10 w-32 ml-4">
@@ -141,7 +141,12 @@ const Match = ({ match }: any) => {
           className="text-xs max-w-max px-4 sm:px-16 py-1 ml-auto border rounded border-[#3f3f3f] bg-[#282828]"
           onClick={toggleParticipants}
         >
-          <ChevronDown size={16} />
+          <ChevronDown
+            size={16}
+            className={`${
+              showParticipants ? "rotate-180" : ""
+            } transition-transform duration-300 ease-in-out`}
+          />
         </button>
       </div>
       {showParticipants && (
@@ -149,7 +154,6 @@ const Match = ({ match }: any) => {
           <div className="border-l-2 pl-1 border-blue-500 flex gap-1 max-h-max items-center z-10 max-w-max">
             <Participants participants={match.participants.slice(0, 5)} />
           </div>
-          <p className="font-bold text-[#5aece5] max-h-max max-w-max">VS</p>
           <div className="border-l-2 pl-1 border-red-500 flex gap-1 max-h-max items-center z-10 max-w-max">
             <Participants participants={match.participants.slice(5, 10)} />
           </div>
