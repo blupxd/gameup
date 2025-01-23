@@ -18,7 +18,7 @@ const Map = ({ map }: any) => {
           <h1 className="text-[10px] sm:text-sm">Win Rate</h1>
           <p className="text-sm font-bold">{map.winPercentage}%</p>
         </div>
-        <div className="flex text-xs lg:text-base flex-col w-32 md:w-auto items-start">
+        <div className="flex text-xs flex-col w-32 md:w-auto items-start">
           <div className="flex items-center text-[#64cec9] w-full xl:w-40">
             <p className="md:w-14 font-bold">{map?.totalWins ?? "N/A"} W</p>
             <span
@@ -33,7 +33,7 @@ const Map = ({ map }: any) => {
               }}
             />
           </div>
-          <div className="flex text-xs lg:text-base items-center text-[#ea7070] w-full xl:w-40">
+          <div className="flex text-xs items-center text-[#ea7070] w-full xl:w-40">
             <p className="md:w-14 font-bold">{map?.totalLosses ?? "N/A"} L</p>
             <span
               className="h-2 ml-auto md:ml-2 rounded bg-[#ea7070]"

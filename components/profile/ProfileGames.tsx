@@ -11,6 +11,8 @@ import ValorantStats from "./games/valorant/ValorantStats";
 import ValorantMatches from "./games/valorant/ValorantMatches";
 import CS2Stats from "./games/cs2/CS2Stats";
 import CS2MapStats from "./games/cs2/CS2MapStats";
+import FortStats from "./games/fortnite/FortStats";
+import FortPlayer from "./games/fortnite/FortPlayer";
 
 const ProfileGames = () => {
   const [selectedGame, setSelecetedGame] = useState<Game>(games[0]);
@@ -26,7 +28,7 @@ const ProfileGames = () => {
       case "CS2":
         return [<CS2Stats />, <CS2MapStats />];
       case "Fortnite":
-        return [<></>];
+        return [<FortStats />, <FortPlayer />];
       default:
         return [<></>];
     }
@@ -41,6 +43,9 @@ const ProfileGames = () => {
         break;
       case "CS2":
         setProfileBG("bgCS2.png");
+        break;
+      case "Fortnite":
+        setProfileBG("bgFN.png");
         break;
       default:
         setProfileBG("");

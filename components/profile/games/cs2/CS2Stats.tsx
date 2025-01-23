@@ -23,6 +23,7 @@ const CS2Stats = () => {
     return rankUrl || "/assets/cs2/ranked_emblems/0-4999.png"; // Ako je URL undefined, vratiti fallback
   };
   const fetchData = useMemo(() => {
+    console.log("Fetching CS2 data...");
     const fetchDataFromAPI = async () => {
       try {
         const response = await fetch(
@@ -36,7 +37,7 @@ const CS2Stats = () => {
       }
     };
     return fetchDataFromAPI;
-  }, [profileData.steamid, setCs2ProfileData]);
+  }, [profileData, setCs2ProfileData]);
 
   useEffect(() => {
     if (profileData?.steamid && !cs2ProfileData) {

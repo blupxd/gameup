@@ -1,6 +1,35 @@
 import queueIds from "./queueIds.json";
 import summonerSpells from "./summonerSpells.json";
 import leagueRunes from "./leagueRunes.json";
+const fetchWithRetry = async (
+  url: string,
+  options: RequestInit = {},
+  retries = 7,
+  delay = 500
+): Promise<Response> => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response;
+      }
+      if (response.status === 504) {
+        console.warn(
+          `Retrying fetch due to 504 Gateway Timeout... (${i + 1}/${retries})`
+        );
+      } else {
+        throw new Error(`Fetch failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      if (i < retries - 1) {
+        await new Promise((res) => setTimeout(res, delay));
+      } else {
+        throw error;
+      }
+    }
+  }
+  throw new Error("Max retries reached");
+};
 export const fetchPuuid = async (
   riotId: string,
   regionalRoute: string
@@ -9,7 +38,7 @@ export const fetchPuuid = async (
   const apiUrl = `https://${regionalRoute}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
 
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithRetry(apiUrl, {
       method: "GET",
     });
 
@@ -40,7 +69,7 @@ export const fetchRankedData = async (
 ) => {
   const apiUrl = `https://${platformRoute}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithRetry(apiUrl, {
       method: "GET",
     });
     if (!res.ok) {
@@ -62,7 +91,7 @@ export const fetchProfileData = async (
 ) => {
   const apiUrl = `https://${platformRoute}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithRetry(apiUrl, {
       method: "GET",
     });
     if (!res.ok) {
@@ -82,7 +111,7 @@ export const fetchProfileData = async (
 export const fetchGameIds = async (regionalRoute: string, puuid: string) => {
   const apiUrl = `https://${regionalRoute}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=3&api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithRetry(apiUrl, {
       method: "GET",
     });
     if (!res.ok) {
@@ -101,7 +130,7 @@ export const fetchGameIds = async (regionalRoute: string, puuid: string) => {
 const fetchGameDetails = async (regionalRoute: string, gameId: string) => {
   const apiUrl = `https://${regionalRoute}.api.riotgames.com/lol/match/v5/matches/${gameId}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithRetry(apiUrl, {
       method: "GET",
     });
     if (!res.ok) {

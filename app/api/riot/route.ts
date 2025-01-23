@@ -45,16 +45,20 @@ export async function POST(req: Request) {
       );
     }
     const puuid = await fetchPuuid(riotId as string, regionalRoute as string);
-    const profileData = await fetchProfileData(puuid, platformRoute as string);
-    const rankedData = await fetchRankedData(
-      profileData.id as string,
-      platformRoute as string
-    );
-
-    return NextResponse.json(
-      { data: profileData, rankedData },
-      { status: 200 }
-    );
+    if (puuid) {
+      const profileData = await fetchProfileData(
+        puuid,
+        platformRoute as string
+      );
+      const rankedData = await fetchRankedData(
+        profileData.id as string,
+        platformRoute as string
+      );
+      return NextResponse.json(
+        { data: profileData, rankedData },
+        { status: 200 }
+      );
+    }
   } catch (error: unknown) {
     console.log(error);
     const errorMessage =

@@ -29,7 +29,6 @@ export async function GET(req: Request) {
     );
 
     if (!cs2Response.ok) {
-      console.error(`CS2 API error: ${cs2Response.statusText}`);
       return NextResponse.json(
         { message: "Failed to fetch CS2 data" },
         { status: cs2Response.status }
@@ -50,7 +49,7 @@ export async function GET(req: Request) {
     const steamLevelData = await steamLevelResponse.json();
 
     return NextResponse.json(
-      { steamData: steamData.response.players[0], steamLevel: steamLevelData.response.player_level, cs2Data },
+      { steamData: steamData.response.players[0], steamLevel: steamLevelData.response.player_level, cs2Data: cs2Data || null },
       { status: 200 }
     );
   } catch (error: unknown) {
