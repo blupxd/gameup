@@ -3,9 +3,9 @@ import React from "react";
 
 const Map = ({ map }: any) => {
   return (
-    <div className="flex lg:flex-row flex-col xl:justify-between w-full xl:items-center bg-[#252525] px-6 py-4 relative rounded overflow-hidden">
-      <div className="flex z-20 items-center justify-between w-full">
-        <div className="flex flex-col items-center">
+    <div className="flex lg:flex-row flex-col xl:justify-between w-full xl:items-center bg-[#252525] px-4 md:px-6 py-4 relative rounded overflow-hidden">
+      <div className="flex z-30 items-center justify-between w-full">
+        <div className="flex flex-col items-center max-w-max">
           <Image
             src={`/assets/cs2/map_icons/${map.map}.png`}
             alt=" "
@@ -14,15 +14,15 @@ const Map = ({ map }: any) => {
           />
           <h1 className="text-[10px] font-bold">{map.map}</h1>
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-sm">Win Rate</h1>
+        <div className="flex flex-col items-center max-w-max">
+          <h1 className="text-[10px] sm:text-sm">Win Rate</h1>
           <p className="text-sm font-bold">{map.winPercentage}%</p>
         </div>
-        <div className="flex flex-col items-start">
+        <div className="flex text-xs lg:text-base flex-col w-32 md:w-auto items-start">
           <div className="flex items-center text-[#64cec9] w-full xl:w-40">
-            <p className="w-14 font-bold">{map?.totalWins ?? "N/A"} W</p>
+            <p className="md:w-14 font-bold">{map?.totalWins ?? "N/A"} W</p>
             <span
-              className="h-2 ml-2 rounded bg-[#64cec9]"
+              className="h-2 ml-auto md:ml-2 rounded bg-[#64cec9]"
               style={{
                 width: `${
                   map?.totalWins + map?.totalLosses > 0
@@ -33,10 +33,10 @@ const Map = ({ map }: any) => {
               }}
             />
           </div>
-          <div className="flex items-center text-[#ea7070] w-full xl:w-40">
-            <p className="w-14 font-bold">{map?.totalLosses ?? "N/A"} L</p>
+          <div className="flex text-xs lg:text-base items-center text-[#ea7070] w-full xl:w-40">
+            <p className="md:w-14 font-bold">{map?.totalLosses ?? "N/A"} L</p>
             <span
-              className="h-2 ml-2 rounded bg-[#ea7070]"
+              className="h-2 ml-auto md:ml-2 rounded bg-[#ea7070]"
               style={{
                 width: `${
                   map?.totalWins + map?.totalLosses > 0

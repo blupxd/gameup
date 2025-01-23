@@ -8,7 +8,7 @@ const CS2MapStats = () => {
   return cs2ProfileData ? (
     <div className="flex flex-col w-full lg:w-[60%]">
       <h1 className="font-bold text-xl">Player Stats</h1>
-      <div className="mt-4 grid grid-cols-2 space-x-2 rounded border border-[#303030] p-2 bg-[#1e1e1e]">
+      <div className="mt-4 grid md:space-y-0 space-y-4 md:grid-cols-2 space-x-2 rounded border border-[#303030] p-2 bg-[#1e1e1e]">
         <div className="flex flex-col">
           <h1 className="font-bold text-lg">Combat Stats</h1>
           <div className="rounded border grid grid-cols-3 gap-4 h-full border-[#303030] p-2 bg-[#1e1e1e]">
