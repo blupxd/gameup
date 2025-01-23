@@ -13,6 +13,7 @@ const ProfilePage = () => {
       const response = await fetch(`/api/auth/user?username=${id}`);
       const data = await response.json();
       setProfileData(data);
+      console.log(data);
     };
 
     fetchProfileData();

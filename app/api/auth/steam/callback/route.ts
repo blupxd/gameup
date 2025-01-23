@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Update Steam ID in the database for the logged-in user
-    const updatedSteamId = await db.user.update({
+    await db.user.update({
       where: { id: session.user.id },
       data: { steamid: identifier },
     });

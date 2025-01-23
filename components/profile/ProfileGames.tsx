@@ -9,6 +9,8 @@ import LeagueMatches from "./games/lol/LeagueMatches";
 import { GameProfileProvider } from "../context/GameContext";
 import ValorantStats from "./games/valorant/ValorantStats";
 import ValorantMatches from "./games/valorant/ValorantMatches";
+import CS2Stats from "./games/cs2/CS2Stats";
+import CS2MapStats from "./games/cs2/CS2MapStats";
 
 const ProfileGames = () => {
   const [selectedGame, setSelecetedGame] = useState<Game>(games[0]);
@@ -21,9 +23,9 @@ const ProfileGames = () => {
         return [<LeagueStats />, <LeagueMatches />];
       case "Valorant":
         return [<ValorantStats />, <ValorantMatches />];
-      case "Fortnite":
-        return [<></>];
       case "CS2":
+        return [<CS2Stats />, <CS2MapStats />];
+      case "Fortnite":
         return [<></>];
       default:
         return [<></>];
@@ -36,6 +38,9 @@ const ProfileGames = () => {
         break;
       case "Valorant":
         setProfileBG("bgVal.png");
+        break;
+      case "CS2":
+        setProfileBG("bgCS2.png");
         break;
       default:
         setProfileBG("");

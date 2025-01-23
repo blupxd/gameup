@@ -2,8 +2,6 @@ import { useProfileContext } from "@/components/context/ProfileContext";
 import {
   getQueueDetails,
   getSummonerDetails,
-  getSummonerSpellDetails,
-  getRuneDetails,
 } from "@/data/fetchLeagueData";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ChevronDown } from "lucide-react";

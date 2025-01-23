@@ -1,19 +1,25 @@
 import queueIds from "./queueIds.json";
 import summonerSpells from "./summonerSpells.json";
 import leagueRunes from "./leagueRunes.json";
-export const fetchPuuid = async (riotId: string, regionalRoute: string) => {
+export const fetchPuuid = async (
+  riotId: string,
+  regionalRoute: string
+): Promise<string> => {
   const [gameName, tagLine] = riotId.split("#");
   const apiUrl = `https://${regionalRoute}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+
   try {
     const res = await fetch(apiUrl, {
       method: "GET",
     });
+
     if (!res.ok) {
       console.error(
         `Failed to fetch PUUID. Status: ${res.status} - ${res.statusText}`
       );
       throw new Error(`Failed to fetch PUUID: ${res.status}`);
     }
+
     const data = await res.json();
 
     if (!data?.puuid) {
@@ -24,9 +30,10 @@ export const fetchPuuid = async (riotId: string, regionalRoute: string) => {
     return data.puuid;
   } catch (error) {
     console.error("Error fetching PUUID at URL:", apiUrl, error);
-    throw error;
+    throw error; // Ova linija je u slučaju da dođe do greške
   }
 };
+
 export const fetchRankedData = async (
   summonerId: string,
   platformRoute: string
